@@ -23,7 +23,7 @@ export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
             onClick={onOpenNewGoal}
           >
             <IconPlus className="w-3.5 h-3.5 mr-1 inline" />
-            <span>Target Baru</span>
+            <span>Target<span className="btn-text-extra"> Baru</span></span>
           </button>
           <button
             type="button"

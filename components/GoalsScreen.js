@@ -156,7 +156,7 @@ export default function GoalsScreen({
                 ) : (
                   isCompleted && (
                     <div className="p-3 bg-emerald-50 border-b border-emerald-100 flex items-center text-xs font-semibold text-emerald-800">
-                      <IconCheck className="w-4 h-4 mr-1.5 text-emerald-600" /> Target Impian Tercapai!
+                      <IconCheck className="w-4 h-4 mr-1.5 text-emerald-600" /> Target Tercapai!
                     </div>
                   )
                 )}
@@ -171,7 +171,7 @@ export default function GoalsScreen({
                       <button
                         type="button"
                         className="btn-action-icon"
-                        title="Edit Impian & Foto"
+                        title="Edit Target & Foto"
                         onClick={() => onEditGoal(g)}
                       >
                         <IconPencil className="w-3.5 h-3.5" />
@@ -179,7 +179,7 @@ export default function GoalsScreen({
                       <button
                         type="button"
                         className="btn-action-icon btn-action-danger"
-                        title="Hapus Impian"
+                        title="Hapus Target"
                         onClick={() => onDeleteGoal(g)}
                       >
                         <IconTrash className="w-3.5 h-3.5" />
@@ -205,7 +205,7 @@ export default function GoalsScreen({
                       <p className="text-sm font-bold text-slate-900">{fmt(g.saved)}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-[11px] text-slate-400">Target Impian</p>
+                      <p className="text-[11px] text-slate-400">Target</p>
                       <p className="text-xs font-semibold text-slate-600">{fmt(g.target)}</p>
                     </div>
                   </div>

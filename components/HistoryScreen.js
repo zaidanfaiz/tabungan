@@ -64,7 +64,7 @@ export default function HistoryScreen({
       {/* Filter and Summary Bar (only show if entries exist) */}
       {entries.length > 0 && (
         <div className="history-filter-bar">
-          <div className="flex items-center gap-2">
+          <div className="history-filter-controls">
             <IconFilter className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-[11.5px] font-semibold text-slate-500 uppercase tracking-wider">
               Filter Target:
