@@ -73,7 +73,7 @@ export default function GoalModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError("Nama impian wajib diisi.");
+      setError("Nama impian wajib diisi, ya.");
       return;
     }
     const numTarget = Number(digits(target));
@@ -106,10 +106,10 @@ export default function GoalModal({
         <div className="modal-header">
           <div>
             <h2 id="goal-modal-title" className="modal-title">
-              {initialGoal ? "Edit Target Impian" : "Tambah Target Impian Baru"}
+              {initialGoal ? "Edit Impian Tasha" : "Tambah Impian Tasha ♡"}
             </h2>
             <p className="modal-subtitle">
-              Tentukan target tabungan dan lengkapi dengan foto impianmu.
+              Tentukan target tabungan dan pasang foto barang impianmu.
             </p>
           </div>
           <button
@@ -118,7 +118,7 @@ export default function GoalModal({
             onClick={onClose}
             aria-label="Tutup"
           >
-            <IconX className="w-5 h-5" />
+            <IconX className="w-4 h-4" />
           </button>
         </div>
 
@@ -139,17 +139,17 @@ export default function GoalModal({
                   <div className="photo-preview-actions">
                     <button
                       type="button"
-                      className="btn-secondary btn-sm"
+                      className="btn-secondary btn-xs"
                       onClick={() => fileInputRef.current?.click()}
                     >
-                      <IconCamera className="w-4 h-4 mr-1 inline" /> Ganti
+                      <IconCamera className="w-3.5 h-3.5 mr-1 inline" /> Ganti Foto
                     </button>
                     <button
                       type="button"
-                      className="btn-danger btn-sm"
+                      className="btn-danger btn-xs"
                       onClick={() => setImage(null)}
                     >
-                      <IconTrash className="w-4 h-4 mr-1 inline" /> Hapus
+                      <IconTrash className="w-3.5 h-3.5 mr-1 inline" /> Hapus Foto
                     </button>
                   </div>
                 </div>
@@ -160,12 +160,12 @@ export default function GoalModal({
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isProcessingImg}
                 >
-                  <IconCamera className="w-6 h-6 text-slate-400" />
-                  <span className="text-sm font-medium text-slate-700">
-                    {isProcessingImg ? "Memproses gambar..." : "Unggah Foto Impian"}
+                  <IconCamera className="w-5 h-5 text-amber-700/60" />
+                  <span className="text-xs font-semibold text-slate-700">
+                    {isProcessingImg ? "Memproses gambar..." : "Pilih Foto Impian Tasha"}
                   </span>
-                  <span className="text-xs text-slate-400">
-                    JPG, PNG maksimal 5MB (otomatis dioptimalkan)
+                  <span className="text-[11px] text-slate-400">
+                    JPG atau PNG (otomatis dioptimalkan)
                   </span>
                 </button>
               )}
@@ -182,13 +182,13 @@ export default function GoalModal({
           {/* Name */}
           <div className="form-group">
             <label htmlFor="goal-name" className="form-label">
-              Nama Impian <span className="text-red-500">*</span>
+              Nama Impian <span className="text-rose-500">*</span>
             </label>
             <input
               id="goal-name"
               type="text"
               className="input-text"
-              placeholder="Contoh: MacBook Pro M3, Beli Motor, Umroh"
+              placeholder="Contoh: iPad Air, iPhone 16, Liburan ke Bali"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -201,7 +201,7 @@ export default function GoalModal({
           {/* Target Amount */}
           <div className="form-group">
             <label htmlFor="goal-target" className="form-label">
-              Target Nominal (Rp) <span className="text-red-500">*</span>
+              Target Nominal (Rp) <span className="text-rose-500">*</span>
             </label>
             <div className="input-currency-wrap">
               <span className="input-prefix">Rp</span>
@@ -210,7 +210,7 @@ export default function GoalModal({
                 type="text"
                 inputMode="numeric"
                 className="input-currency"
-                placeholder="10.000.000"
+                placeholder="4.000.000"
                 value={target}
                 onChange={handleTargetChange}
               />
@@ -239,7 +239,7 @@ export default function GoalModal({
 
             <div className="form-group">
               <label htmlFor="goal-deadline" className="form-label">
-                Target Selesai (Opsional)
+                Target Tercapai (Opsional)
               </label>
               <input
                 id="goal-deadline"
@@ -254,13 +254,13 @@ export default function GoalModal({
           <div className="modal-footer">
             <button
               type="button"
-              className="btn-secondary"
+              className="btn-secondary btn-sm"
               onClick={onClose}
             >
               Batal
             </button>
-            <button type="submit" className="btn-primary">
-              {initialGoal ? "Simpan Perubahan" : "Tambah Impian"}
+            <button type="submit" className="btn-primary btn-sm">
+              {initialGoal ? "Simpan Perubahan" : "Simpan Impian ♡"}
             </button>
           </div>
         </form>

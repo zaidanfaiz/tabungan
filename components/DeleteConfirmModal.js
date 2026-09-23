@@ -56,14 +56,14 @@ export default function DeleteConfirmModal({
         <div className="modal-footer">
           <button
             type="button"
-            className="btn-secondary"
+            className="btn-secondary btn-sm"
             onClick={onClose}
           >
             Batal
           </button>
           <button
             type="button"
-            className="btn-danger"
+            className="btn-danger btn-sm"
             onClick={onConfirm}
           >
             Ya, Hapus

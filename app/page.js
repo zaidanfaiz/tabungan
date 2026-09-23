@@ -27,7 +27,7 @@ export default function Page() {
 
   const [deleteModalState, setDeleteModalState] = useState({
     isOpen: false,
-    type: null, // "goal" or "entry"
+    type: null,
     item: null,
     title: "",
     message: "",
@@ -42,7 +42,7 @@ export default function Page() {
   }, []);
 
   // Toast notification helper
-  const showToast = useCallback((message, type = "success") => {
+  const showToast = useCallback((message) => {
     const id = Date.now() + Math.random();
     setToasts((prev) => [...prev.slice(-2), { id, html: message, isOut: false }]);
 
@@ -83,14 +83,12 @@ export default function Page() {
       const exists = prev.goals.some((g) => g.id === goalData.id);
       let updatedGoals;
       if (exists) {
-        // Update existing goal preserving its saved amount
         updatedGoals = prev.goals.map((g) =>
           g.id === goalData.id
             ? { ...g, ...goalData, saved: g.saved }
             : g
         );
       } else {
-        // Add new goal
         updatedGoals = [goalData, ...prev.goals];
       }
       return { ...prev, goals: updatedGoals };
@@ -99,8 +97,8 @@ export default function Page() {
     setIsGoalModalOpen(false);
     showToast(
       editingGoal
-        ? `Target <strong>${goalData.name}</strong> berhasil diperbarui.`
-        : `Target <strong>${goalData.name}</strong> berhasil ditambahkan!`
+        ? `Target <strong>${goalData.name}</strong> berhasil diperbarui, Tasha ♡`
+        : `Impian <strong>${goalData.name}</strong> berhasil ditambahkan, Tasha ♡`
     );
   };
 
@@ -110,7 +108,7 @@ export default function Page() {
       type: "goal",
       item: goal,
       title: "Hapus Target Impian?",
-      message: `Target "${goal.name}" beserta riwayat tabungannya akan dihapus secara permanen.`,
+      message: `Impian "${goal.name}" beserta catatan tabungannya akan dihapus dari diari.`,
     });
   };
 
@@ -162,7 +160,6 @@ export default function Page() {
       let nextGoals;
 
       if (editingEntry) {
-        // Recalculate difference if amount or goal changed
         const oldAmount = Number(editingEntry.a) || 0;
         const newAmount = Number(entryData.a) || 0;
         const oldGoalId = editingEntry.g;
@@ -185,7 +182,6 @@ export default function Page() {
           return g;
         });
       } else {
-        // New deposit entry
         nextEntries = [entryData, ...prev.entries];
         nextGoals = prev.goals.map((g) => {
           if (g.id === entryData.g) {
@@ -201,8 +197,8 @@ export default function Page() {
     setIsDepositModalOpen(false);
     showToast(
       editingEntry
-        ? `Transaksi <strong>${fmt(entryData.a)}</strong> berhasil diperbarui.`
-        : `Tabungan sebesar <strong>${fmt(entryData.a)}</strong> berhasil dicatat!`
+        ? `Catatan tabungan <strong>${fmt(entryData.a)}</strong> berhasil diperbarui ♡`
+        : `Tercatat, Tasha! <strong>${fmt(entryData.a)}</strong> masuk tabungan ♡`
     );
   };
 
@@ -212,7 +208,7 @@ export default function Page() {
       type: "entry",
       item: entry,
       title: "Hapus Catatan Tabungan?",
-      message: `Setoran sebesar ${fmt(entry.a)} pada tanggal ${entry.d} akan dihapus dari saldo target.`,
+      message: `Setoran sebesar ${fmt(entry.a)} pada tanggal ${entry.d} akan dihapus dari saldo impian.`,
     });
   };
 

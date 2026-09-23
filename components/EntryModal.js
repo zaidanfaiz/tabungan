@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { digits, today, fmt } from "@/lib/storage";
 import { IconX } from "@/components/Icons";
 
-const QUICK_AMOUNTS = [25_000, 50_000, 100_000, 250_000, 500_000];
+const QUICK_AMOUNTS = [10_000, 25_000, 35_000, 50_000, 100_000];
 
 export default function EntryModal({
   isOpen,
@@ -27,7 +27,7 @@ export default function EntryModal({
       setDate(initialEntry.d || today());
       setNote(initialEntry.n || "");
     } else {
-      setAmount("");
+      setAmount("35.000");
       setGoalId(defaultGoalId || (goals[0]?.id || ""));
       setDate(today());
       setNote("");
@@ -62,11 +62,11 @@ export default function EntryModal({
     e.preventDefault();
     const numAmount = Number(digits(amount));
     if (!numAmount || numAmount < 1000) {
-      setError("Nominal tabungan minimal Rp1.000.");
+      setError("Nominal tabungan minimal Rp1.000, ya.");
       return;
     }
     if (!goalId) {
-      setError("Pilih target impian tujuan tabungan.");
+      setError("Pilih impian tujuan tabunganmu.");
       return;
     }
 
@@ -92,10 +92,10 @@ export default function EntryModal({
         <div className="modal-header">
           <div>
             <h2 id="entry-modal-title" className="modal-title">
-              {initialEntry ? "Edit Catatan Tabungan" : "Catat Tabungan Masuk"}
+              {initialEntry ? "Edit Catatan Tabungan" : "Nabung Hari Ini ♡"}
             </h2>
             <p className="modal-subtitle">
-              Masukkan nominal yang kamu sisihkan untuk mendekati impianmu.
+              Setiap rupiah mendekatkan Tasha ke impian manisnya.
             </p>
           </div>
           <button
@@ -104,7 +104,7 @@ export default function EntryModal({
             onClick={onClose}
             aria-label="Tutup"
           >
-            <IconX className="w-5 h-5" />
+            <IconX className="w-4 h-4" />
           </button>
         </div>
 
@@ -114,7 +114,7 @@ export default function EntryModal({
           {/* Amount Input */}
           <div className="form-group">
             <label htmlFor="entry-amount" className="form-label">
-              Nominal Tabungan (Rp) <span className="text-red-500">*</span>
+              Nominal Tabungan (Rp) <span className="text-rose-500">*</span>
             </label>
             <div className="input-currency-wrap">
               <span className="input-prefix">Rp</span>
@@ -123,7 +123,7 @@ export default function EntryModal({
                 type="text"
                 inputMode="numeric"
                 className="input-currency"
-                placeholder="50.000"
+                placeholder="35.000"
                 value={amount}
                 onChange={handleAmountChange}
                 autoFocus
@@ -147,7 +147,7 @@ export default function EntryModal({
           {/* Goal Selector */}
           <div className="form-group">
             <label htmlFor="entry-goal" className="form-label">
-              Tujuan Impian <span className="text-red-500">*</span>
+              Masuk ke Impian <span className="text-rose-500">*</span>
             </label>
             <select
               id="entry-goal"
@@ -180,13 +180,13 @@ export default function EntryModal({
 
             <div className="form-group">
               <label htmlFor="entry-note" className="form-label">
-                Catatan / Sumber (Opsional)
+                Catatan Kecil (Opsional)
               </label>
               <input
                 id="entry-note"
                 type="text"
                 className="input-text"
-                placeholder="Contoh: Sisa jajan, THR, Gaji"
+                placeholder="Contoh: Sisa uang jajan, Kopi bikin sendiri"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
               />
@@ -196,13 +196,13 @@ export default function EntryModal({
           <div className="modal-footer">
             <button
               type="button"
-              className="btn-secondary"
+              className="btn-secondary btn-sm"
               onClick={onClose}
             >
               Batal
             </button>
-            <button type="submit" className="btn-primary">
-              {initialEntry ? "Simpan Perubahan" : "Catat Tabungan"}
+            <button type="submit" className="btn-primary btn-sm">
+              {initialEntry ? "Simpan Perubahan" : "Catat Nabungnya ♡"}
             </button>
           </div>
         </form>

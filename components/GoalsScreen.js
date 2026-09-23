@@ -34,17 +34,17 @@ export default function GoalsScreen({
       {/* Header & Actions */}
       <div className="view-header">
         <div>
-          <h2 className="view-title">Daftar Target Impian</h2>
+          <h2 className="view-title">Impian &amp; Celengan Tasha ♡</h2>
           <p className="view-subtitle">
-            Kelola tujuan finansialmu, perbarui nominal target, dan pantau progresnya.
+            Buku catatan impian Tasha: perbarui target nominal, pasang foto impian, dan pantau tabungannya setiap saat ♡
           </p>
         </div>
         <button
           type="button"
-          className="btn-primary"
+          className="btn-primary btn-sm"
           onClick={onOpenNewGoal}
         >
-          <IconPlus className="w-4 h-4 mr-1.5 inline" /> Tambah Target
+          <IconPlus className="w-3.5 h-3.5 mr-1 inline" /> Tambah Impian ♡
         </button>
       </div>
 
@@ -77,7 +77,7 @@ export default function GoalsScreen({
 
           <input
             type="text"
-            placeholder="Cari target impian..."
+            placeholder="Cari impian Tasha..."
             className="search-input"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -87,20 +87,20 @@ export default function GoalsScreen({
 
       {/* Empty State when no goals at all */}
       {goals.length === 0 ? (
-        <div className="empty-box py-16">
+        <div className="empty-box py-12">
           <div className="empty-icon-wrap">
-            <IconPlus className="w-8 h-8 text-amber-700" />
+            <IconPlus className="w-6 h-6 text-amber-700" />
           </div>
-          <h3 className="text-lg font-bold text-slate-900 mt-4">Belum Ada Target Impian</h3>
-          <p className="text-sm text-slate-500 max-w-md mx-auto mt-2 leading-relaxed">
-            Tambahkan impian pertamamu, tentukan nominal target tabungan, dan pasang foto barang atau tujuan yang ingin kamu capai.
+          <h3 className="text-base font-bold text-slate-900 mt-3">Belum Ada Catatan Impian Tasha</h3>
+          <p className="text-xs text-slate-500 max-w-md mx-auto mt-1.5 leading-relaxed">
+            Tuliskan impian pertama Tasha, tentukan nominal target tabungan, dan pasang foto barang atau tujuan yang ingin Tasha capai ♡
           </p>
           <button
             type="button"
-            className="btn-primary btn-md mt-6"
+            className="btn-primary btn-sm mt-4"
             onClick={onOpenNewGoal}
           >
-            <IconPlus className="w-4 h-4 mr-2 inline" /> Buat Target Impian Pertama
+            <IconPlus className="w-3.5 h-3.5 mr-1.5 inline" /> Buat Impian Pertama Tasha ♡
           </button>
         </div>
       ) : filteredGoals.length === 0 ? (
@@ -171,25 +171,25 @@ export default function GoalsScreen({
                       <button
                         type="button"
                         className="btn-action-icon"
-                        title="Edit Target & Foto"
+                        title="Edit Impian & Foto"
                         onClick={() => onEditGoal(g)}
                       >
-                        <IconPencil className="w-4 h-4" />
+                        <IconPencil className="w-3.5 h-3.5" />
                       </button>
                       <button
                         type="button"
                         className="btn-action-icon btn-action-danger"
-                        title="Hapus Target"
+                        title="Hapus Impian"
                         onClick={() => onDeleteGoal(g)}
                       >
-                        <IconTrash className="w-4 h-4" />
+                        <IconTrash className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </div>
 
                   {g.deadline && (
-                    <div className="text-xs text-slate-500 flex items-center gap-1.5 mt-1 font-medium">
-                      <IconCalendar className="w-3.5 h-3.5 text-slate-400" />
+                    <div className="text-[11.5px] text-slate-500 flex items-center gap-1.5 mt-1 font-medium">
+                      <IconCalendar className="w-3 h-3 text-slate-400" />
                       <span>Target: {formatDateShort(g.deadline)}</span>
                       {deadlineInfo && (
                         <span className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 font-semibold border border-amber-200">
@@ -201,12 +201,12 @@ export default function GoalsScreen({
 
                   <div className="goal-amount-row">
                     <div>
-                      <p className="text-xs text-slate-400">Terkumpul</p>
-                      <p className="text-base font-bold text-slate-900">{fmt(g.saved)}</p>
+                      <p className="text-[11px] text-slate-400">Terkumpul</p>
+                      <p className="text-sm font-bold text-slate-900">{fmt(g.saved)}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-slate-400">Target Nominal</p>
-                      <p className="text-sm font-semibold text-slate-600">{fmt(g.target)}</p>
+                      <p className="text-[11px] text-slate-400">Target Impian</p>
+                      <p className="text-xs font-semibold text-slate-600">{fmt(g.target)}</p>
                     </div>
                   </div>
 
@@ -218,15 +218,15 @@ export default function GoalsScreen({
                   </div>
 
                   <div className="goal-card-footer">
-                    <span className="text-xs text-slate-500 font-medium">
-                      {Math.round(pct)}% {isCompleted ? "Selesai" : `(Sisa ${fmt(sisa)})`}
+                    <span className="text-[11.5px] text-slate-500 font-medium">
+                      {Math.round(pct)}% {isCompleted ? "Tercapai ♡" : `(Sisa ${fmt(sisa)})`}
                     </span>
                     <button
                       type="button"
                       className="btn-primary btn-xs"
                       onClick={() => onOpenDeposit(g.id)}
                     >
-                      <IconPlus className="w-3.5 h-3.5 mr-1 inline" /> Nabung
+                      <IconPlus className="w-3 h-3 mr-1 inline" /> Nabung ♡
                     </button>
                   </div>
                 </div>

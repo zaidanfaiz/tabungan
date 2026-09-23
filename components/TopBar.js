@@ -1,18 +1,18 @@
 "use client";
 
-import { IconWallet, IconPlus } from "@/components/Icons";
+import { IconPlus } from "@/components/Icons";
 
 export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
   return (
     <header className="app-topbar">
       <div className="topbar-inner">
         <div className="brand-group">
-          <div className="brand-logo">
-            <IconWallet className="w-5 h-5 text-amber-50" />
+          <div className="brand-avatar">
+            <span>T</span>
           </div>
           <div>
-            <h1 className="brand-title">Tabungan</h1>
-            <p className="brand-subtitle">Diari Finansial &amp; Target Impian</p>
+            <h1 className="brand-title">Tasha’s Little Savings ♡</h1>
+            <p className="brand-subtitle">Diari impian &amp; celengan kecil Tasha</p>
           </div>
         </div>
 
@@ -22,7 +22,7 @@ export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
             className="btn-secondary btn-sm"
             onClick={onOpenNewGoal}
           >
-            <IconPlus className="w-4 h-4 mr-1.5 inline" />
+            <IconPlus className="w-3.5 h-3.5 mr-1 inline" />
             <span>Target Baru</span>
           </button>
           <button
@@ -30,8 +30,8 @@ export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
             className="btn-primary btn-sm"
             onClick={onOpenDeposit}
           >
-            <IconPlus className="w-4 h-4 mr-1.5 inline" />
-            <span>Catat Tabungan</span>
+            <IconPlus className="w-3.5 h-3.5 mr-1 inline" />
+            <span>Nabung ♡</span>
           </button>
         </div>
       </div>

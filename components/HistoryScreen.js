@@ -45,18 +45,18 @@ export default function HistoryScreen({
       {/* Header */}
       <div className="view-header">
         <div>
-          <h2 className="view-title">Riwayat Transaksi Tabungan</h2>
+          <h2 className="view-title">Riwayat Nabung Tasha ♡</h2>
           <p className="view-subtitle">
-            Catatan detail setiap kali kamu menyisihkan uang beserta sumber dan tujuan impiannya.
+            Catatan setiap kali Tasha menyisihkan uang untuk impian manisnya ♡
           </p>
         </div>
         {goals.length > 0 && (
           <button
             type="button"
-            className="btn-primary"
+            className="btn-primary btn-sm"
             onClick={() => onOpenDeposit()}
           >
-            <IconPlus className="w-4 h-4 mr-1.5 inline" /> Catat Tabungan
+            <IconPlus className="w-3.5 h-3.5 mr-1 inline" /> Nabung ♡
           </button>
         )}
       </div>
@@ -65,21 +65,21 @@ export default function HistoryScreen({
       {entries.length > 0 && (
         <div className="history-filter-bar">
           <div className="flex items-center gap-2">
-            <IconFilter className="w-4 h-4 text-slate-400" />
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Filter Target:
+            <IconFilter className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-[11.5px] font-semibold text-slate-500 uppercase tracking-wider">
+              Filter Impian:
             </span>
             <select
               className="input-select input-select-sm"
               value={selectedGoal}
               onChange={(e) => setSelectedGoal(e.target.value)}
             >
-              <option value="all">Semua Target Impian ({entries.length})</option>
+              <option value="all">Semua Impian ({entries.length})</option>
               {goals.map((g) => {
                 const count = entries.filter((e) => e.g === g.id).length;
                 return (
                   <option key={g.id} value={g.id}>
-                    {g.name} ({count} transaksi)
+                    {g.name} ({count} catatan)
                   </option>
                 );
               })}
@@ -88,45 +88,45 @@ export default function HistoryScreen({
 
           <div className="history-total-chip">
             <span className="text-xs text-slate-500">Total Periode Ini:</span>
-            <span className="font-bold text-slate-900">{fmt(totalFilteredSum)}</span>
+            <span className="font-bold text-slate-900 text-sm">{fmt(totalFilteredSum)}</span>
           </div>
         </div>
       )}
 
       {/* Empty State when no entries at all */}
       {entries.length === 0 ? (
-        <div className="empty-box py-16">
+        <div className="empty-box py-12">
           <div className="empty-icon-wrap">
-            <IconCalendar className="w-8 h-8 text-amber-700" />
+            <IconCalendar className="w-6 h-6 text-amber-700" />
           </div>
-          <h3 className="text-lg font-bold text-slate-900 mt-4">Belum Ada Catatan Tabungan</h3>
-          <p className="text-sm text-slate-500 max-w-md mx-auto mt-2 leading-relaxed">
+          <h3 className="text-base font-bold text-slate-900 mt-3">Belum Ada Catatan Nabung</h3>
+          <p className="text-xs text-slate-500 max-w-md mx-auto mt-1.5 leading-relaxed">
             {goals.length === 0
-              ? "Buat target impian terlebih dahulu sebelum mencatat setoran tabungan pertamamu."
-              : "Setiap kali kamu menyisihkan uang, catat nominal dan tujuannya di sini agar riwayat perkembangan tabunganmu terekam rapi."}
+              ? "Buat target impian terlebih dahulu sebelum mencatat setoran tabungan pertamamu, Tasha ♡"
+              : "Setiap kali Tasha menyisihkan uang, catat nominal dan tujuannya di sini agar riwayat perkembangan tabunganmu terekam rapi ♡"}
           </p>
           {goals.length > 0 && (
             <button
               type="button"
-              className="btn-primary btn-md mt-6"
+              className="btn-primary btn-sm mt-4"
               onClick={() => onOpenDeposit()}
             >
-              <IconPlus className="w-4 h-4 mr-2 inline" /> Catat Setoran Pertama
+              <IconPlus className="w-3.5 h-3.5 mr-1.5 inline" /> Catat Nabung Pertama ♡
             </button>
           )}
         </div>
       ) : filteredEntries.length === 0 ? (
-        <div className="empty-box py-12">
-          <p className="font-semibold text-slate-700 text-base">Tidak ada transaksi untuk target ini</p>
-          <p className="text-sm text-slate-500 mt-1">
-            Belum ada catatan setoran tabungan untuk target impian yang dipilih.
+        <div className="empty-box py-10">
+          <p className="font-semibold text-slate-700 text-sm">Tidak ada catatan untuk impian ini</p>
+          <p className="text-xs text-slate-500 mt-1">
+            Belum ada catatan setoran tabungan untuk impian yang dipilih.
           </p>
           <button
             type="button"
-            className="btn-secondary btn-sm mt-4"
+            className="btn-secondary btn-xs mt-3"
             onClick={() => setSelectedGoal("all")}
           >
-            Tampilkan Semua Transaksi
+            Tampilkan Semua Catatan
           </button>
         </div>
       ) : (
@@ -176,18 +176,18 @@ export default function HistoryScreen({
                             <button
                               type="button"
                               className="btn-icon-subtle"
-                              title="Edit Transaksi"
+                              title="Edit Catatan"
                               onClick={() => onEditEntry(item)}
                             >
-                              <IconPencil className="w-4 h-4" />
+                              <IconPencil className="w-3.5 h-3.5" />
                             </button>
                             <button
                               type="button"
                               className="btn-icon-subtle text-red-500 hover:text-red-700"
-                              title="Hapus Transaksi"
+                              title="Hapus Catatan"
                               onClick={() => onDeleteEntry(item)}
                             >
-                              <IconTrash className="w-4 h-4" />
+                              <IconTrash className="w-3.5 h-3.5" />
                             </button>
                           </div>
                         </div>

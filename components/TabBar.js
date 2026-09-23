@@ -4,9 +4,9 @@ import { IconWallet, IconTrendingUp, IconCalendar } from "@/components/Icons";
 
 export default function TabBar({ activeTab, onSelectTab, goalCount = 0, entryCount = 0 }) {
   const tabs = [
-    { id: "overview", label: "Ringkasan", icon: IconTrendingUp },
-    { id: "goals", label: "Target Impian", icon: IconWallet, badge: goalCount },
-    { id: "history", label: "Riwayat Transaksi", icon: IconCalendar, badge: entryCount },
+    { id: "overview", label: "Beranda ♡", icon: IconTrendingUp },
+    { id: "goals", label: "Impian Tasha", icon: IconWallet, badge: goalCount },
+    { id: "history", label: "Riwayat Nabung", icon: IconCalendar, badge: entryCount },
   ];
 
   return (
@@ -23,7 +23,7 @@ export default function TabBar({ activeTab, onSelectTab, goalCount = 0, entryCou
               onClick={() => onSelectTab(t.id)}
               aria-current={isActive ? "page" : undefined}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-3.5 h-3.5" />
               <span>{t.label}</span>
               {t.badge > 0 && (
                 <span className={`tab-badge ${isActive ? "tab-badge-active" : ""}`}>
