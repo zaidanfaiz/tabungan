@@ -11,8 +11,8 @@ export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
             <span>T</span>
           </div>
           <div>
-            <h1 className="brand-title">Tasha’s Little Savings ♡</h1>
-            <p className="brand-subtitle">Diari impian &amp; celengan kecil Tasha</p>
+            <h1 className="brand-title">Tabungan Tasha</h1>
+            <p className="brand-subtitle">Pencatatan target &amp; progres tabungan</p>
           </div>
         </div>
 
@@ -31,7 +31,7 @@ export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
             onClick={onOpenDeposit}
           >
             <IconPlus className="w-3.5 h-3.5 mr-1 inline" />
-            <span>Nabung ♡</span>
+            <span>Nabung</span>
           </button>
         </div>
       </div>

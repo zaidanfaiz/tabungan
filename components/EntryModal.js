@@ -62,11 +62,11 @@ export default function EntryModal({
     e.preventDefault();
     const numAmount = Number(digits(amount));
     if (!numAmount || numAmount < 1000) {
-      setError("Nominal tabungan minimal Rp1.000, ya.");
+      setError("Nominal tabungan minimal Rp1.000.");
       return;
     }
     if (!goalId) {
-      setError("Pilih impian tujuan tabunganmu.");
+      setError("Pilih target tabungan.");
       return;
     }
 
@@ -92,10 +92,10 @@ export default function EntryModal({
         <div className="modal-header">
           <div>
             <h2 id="entry-modal-title" className="modal-title">
-              {initialEntry ? "Edit Catatan Tabungan" : "Nabung Hari Ini ♡"}
+              {initialEntry ? "Edit Catatan Tabungan" : "Catat Tabungan"}
             </h2>
             <p className="modal-subtitle">
-              Setiap rupiah mendekatkan Tasha ke impian manisnya.
+              Pilih target tujuan dan masukkan nominal setoran.
             </p>
           </div>
           <button
@@ -147,7 +147,7 @@ export default function EntryModal({
           {/* Goal Selector */}
           <div className="form-group">
             <label htmlFor="entry-goal" className="form-label">
-              Masuk ke Impian <span className="text-rose-500">*</span>
+              Target Tabungan <span className="text-rose-500">*</span>
             </label>
             <select
               id="entry-goal"
@@ -180,13 +180,13 @@ export default function EntryModal({
 
             <div className="form-group">
               <label htmlFor="entry-note" className="form-label">
-                Catatan Kecil (Opsional)
+                Catatan (Opsional)
               </label>
               <input
                 id="entry-note"
                 type="text"
                 className="input-text"
-                placeholder="Contoh: Sisa uang jajan, Kopi bikin sendiri"
+                placeholder="Contoh: Uang saku, Tabungan mingguan"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
               />
@@ -202,7 +202,7 @@ export default function EntryModal({
               Batal
             </button>
             <button type="submit" className="btn-primary btn-sm">
-              {initialEntry ? "Simpan Perubahan" : "Catat Nabungnya ♡"}
+              {initialEntry ? "Simpan Perubahan" : "Simpan Setoran"}
             </button>
           </div>
         </form>

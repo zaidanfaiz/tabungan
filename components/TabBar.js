@@ -4,9 +4,9 @@ import { IconWallet, IconTrendingUp, IconCalendar } from "@/components/Icons";
 
 export default function TabBar({ activeTab, onSelectTab, goalCount = 0, entryCount = 0 }) {
   const tabs = [
-    { id: "overview", label: "Beranda ♡", icon: IconTrendingUp },
-    { id: "goals", label: "Impian Tasha", icon: IconWallet, badge: goalCount },
-    { id: "history", label: "Riwayat Nabung", icon: IconCalendar, badge: entryCount },
+    { id: "overview", label: "Beranda", icon: IconTrendingUp },
+    { id: "goals", label: "Target", icon: IconWallet, badge: goalCount },
+    { id: "history", label: "Riwayat", icon: IconCalendar, badge: entryCount },
   ];
 
   return (

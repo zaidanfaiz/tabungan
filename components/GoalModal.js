@@ -73,7 +73,7 @@ export default function GoalModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError("Nama impian wajib diisi, ya.");
+      setError("Nama target wajib diisi.");
       return;
     }
     const numTarget = Number(digits(target));
@@ -106,10 +106,10 @@ export default function GoalModal({
         <div className="modal-header">
           <div>
             <h2 id="goal-modal-title" className="modal-title">
-              {initialGoal ? "Edit Impian Tasha" : "Tambah Impian Tasha ♡"}
+              {initialGoal ? "Edit Target" : "Tambah Target Baru"}
             </h2>
             <p className="modal-subtitle">
-              Tentukan target tabungan dan pasang foto barang impianmu.
+              Tentukan nama, nominal target, dan foto barang yang ingin dicapai.
             </p>
           </div>
           <button
@@ -127,13 +127,13 @@ export default function GoalModal({
 
           {/* Photo Upload Section */}
           <div className="form-group">
-            <label className="form-label">Foto Impian (Opsional)</label>
+            <label className="form-label">Foto Target (Opsional)</label>
             <div className="photo-upload-zone">
               {image ? (
                 <div className="photo-preview-wrap">
                   <img
                     src={image}
-                    alt="Preview Impian"
+                    alt="Preview Target"
                     className="photo-preview"
                   />
                   <div className="photo-preview-actions">
@@ -162,7 +162,7 @@ export default function GoalModal({
                 >
                   <IconCamera className="w-5 h-5 text-amber-700/60" />
                   <span className="text-xs font-semibold text-slate-700">
-                    {isProcessingImg ? "Memproses gambar..." : "Pilih Foto Impian Tasha"}
+                    {isProcessingImg ? "Memproses gambar..." : "Pilih Foto Target"}
                   </span>
                   <span className="text-[11px] text-slate-400">
                     JPG atau PNG (otomatis dioptimalkan)
@@ -182,13 +182,13 @@ export default function GoalModal({
           {/* Name */}
           <div className="form-group">
             <label htmlFor="goal-name" className="form-label">
-              Nama Impian <span className="text-rose-500">*</span>
+              Nama Target <span className="text-rose-500">*</span>
             </label>
             <input
               id="goal-name"
               type="text"
               className="input-text"
-              placeholder="Contoh: iPad Air, iPhone 16, Liburan ke Bali"
+              placeholder="Contoh: Dana Darurat, Laptop, Liburan"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -260,7 +260,7 @@ export default function GoalModal({
               Batal
             </button>
             <button type="submit" className="btn-primary btn-sm">
-              {initialGoal ? "Simpan Perubahan" : "Simpan Impian ♡"}
+              {initialGoal ? "Simpan Perubahan" : "Simpan Target"}
             </button>
           </div>
         </form>

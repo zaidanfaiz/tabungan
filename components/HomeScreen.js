@@ -36,54 +36,26 @@ export default function HomeScreen({
 
   const recentEntries = entries.slice(0, 5);
 
-  // If empty, render an intimate, lovely onboarding screen for Tasha
+  // Clean empty state when no goals exist
   if (goals.length === 0) {
     return (
       <div className="view-container">
-        <div className="welcome-journal-card">
-          <div className="welcome-badge">
-            <span>Diari Tabungan Tasha ♡</span>
+        <div className="empty-box py-12">
+          <div className="empty-icon-wrap">
+            <IconPlus className="w-5 h-5 text-amber-800" />
           </div>
-
-          <h2 className="welcome-title">Hai Tasha, Apa Impianmu Hari Ini?</h2>
-          <p className="welcome-desc">
-            Buku catatan impian kecil milik Tasha. Tuliskan apa saja impian yang ingin Tasha wujudkan, pasang foto impiannya, dan isi halamannya sedikit demi sedikit setiap hari.
+          <h2 className="text-base font-bold text-slate-800 mt-3">Belum Ada Target Tabungan</h2>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 leading-relaxed">
+            Buat target pertama untuk mulai memantau progres tabungan Tasha.
           </p>
-
-          <div className="welcome-actions">
+          <div className="mt-4 flex justify-center">
             <button
               type="button"
               className="btn-primary btn-sm"
               onClick={onOpenNewGoal}
             >
-              <IconPlus className="w-3.5 h-3.5 mr-1.5 inline" /> Buat Impian Pertama Tasha ♡
+              <IconPlus className="w-3.5 h-3.5 mr-1.5 inline" /> Tambah Target
             </button>
-          </div>
-
-          <div className="welcome-features-grid">
-            <div className="feature-pill">
-              <span className="feature-dot bg-rose-400" />
-              <div>
-                <p className="font-semibold text-slate-800 text-xs">Impian &amp; Foto</p>
-                <p className="text-[11px] text-slate-500">Pasang foto barang idaman Tasha</p>
-              </div>
-            </div>
-
-            <div className="feature-pill">
-              <span className="feature-dot bg-amber-400" />
-              <div>
-                <p className="font-semibold text-slate-800 text-xs">Target Fleksibel</p>
-                <p className="text-[11px] text-slate-500">Edit nominal target kapan saja</p>
-              </div>
-            </div>
-
-            <div className="feature-pill">
-              <span className="feature-dot bg-emerald-400" />
-              <div>
-                <p className="font-semibold text-slate-800 text-xs">Pelan &amp; Pasti</p>
-                <p className="text-[11px] text-slate-500">Sedikit tiap hari jadi besar diam-diam</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -96,8 +68,8 @@ export default function HomeScreen({
       <div className="metrics-grid">
         <div className="metric-card metric-card-hero">
           <div className="flex items-center justify-between">
-            <p className="metric-label">Tabungan Terkumpul Tasha</p>
-            <span className="text-xs text-rose-200 font-medium">Hi Tasha ♡</span>
+            <p className="metric-label">Tabungan Terkumpul</p>
+            <span className="text-xs text-rose-200 font-medium">Tasha</span>
           </div>
           <p className="metric-value metric-value-serif text-white">{fmt(totalSaved)}</p>
           <div className="metric-footer">
@@ -115,21 +87,21 @@ export default function HomeScreen({
         </div>
 
         <div className="metric-card">
-          <p className="metric-label text-slate-500">Total Impian Tasha</p>
+          <p className="metric-label text-slate-500">Total Target</p>
           <p className="metric-value metric-value-serif text-slate-900">{fmt(totalTarget)}</p>
           <p className="text-xs text-slate-500 mt-2 font-medium">
-            Terbagi dalam <strong>{goals.length}</strong> impian manis
+            Terbagi dalam <strong>{goals.length}</strong> target aktif
           </p>
         </div>
 
         <div className="metric-card">
-          <p className="metric-label text-slate-500">Streak Konsistensi</p>
+          <p className="metric-label text-slate-500">Streak Menabung</p>
           <div className="flex items-baseline gap-1.5">
             <p className="metric-value metric-value-serif text-amber-700">{streak}</p>
             <span className="text-xs font-semibold text-slate-600">hari berturut-turut</span>
           </div>
           <p className="text-xs text-slate-500 mt-2 font-medium">
-            {streak > 0 ? "Keren banget Tasha, tetap semangat ya ♡" : "Yuk sisihkan sedikit tabungan hari ini ♡"}
+            {streak > 0 ? "Catatan menabung aktif" : "Belum ada transaksi hari ini"}
           </p>
         </div>
       </div>
@@ -140,8 +112,8 @@ export default function HomeScreen({
         <div className="dashboard-section">
           <div className="section-header">
             <div>
-              <h2 className="section-title">Impian Tasha</h2>
-              <p className="section-subtitle">Daftar impian yang sedang dikumpulkan pelan-pelan</p>
+              <h2 className="section-title">Target Tabungan</h2>
+              <p className="section-subtitle">Daftar target yang sedang berjalan</p>
             </div>
             <button
               type="button"
@@ -165,7 +137,7 @@ export default function HomeScreen({
                       <img src={g.image} alt={g.name} className="goal-photo" />
                       {isDone && (
                         <span className="goal-photo-tag-completed">
-                          <IconCheck className="w-3 h-3 inline mr-1" /> Tercapai ♡
+                          <IconCheck className="w-3 h-3 inline mr-1" /> Selesai
                         </span>
                       )}
                     </div>
@@ -174,7 +146,7 @@ export default function HomeScreen({
                   <div className="goal-card-body">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <span className="badge-category">{g.category || "Impian"}</span>
+                        <span className="badge-category">{g.category || "Target"}</span>
                         <h3 className="goal-name">{g.name}</h3>
                       </div>
                       <div className="goal-actions-row">
@@ -217,14 +189,14 @@ export default function HomeScreen({
 
                     <div className="goal-card-footer">
                       <span className="text-[11.5px] text-slate-500 font-medium">
-                        {Math.round(pct)}% {isDone ? "Selesai ♡" : `(Sisa ${fmt(sisa)})`}
+                        {Math.round(pct)}% {isDone ? "Selesai" : `(Sisa ${fmt(sisa)})`}
                       </span>
                       <button
                         type="button"
                         className="btn-primary btn-xs"
                         onClick={() => onOpenDeposit(g.id)}
                       >
-                        <IconPlus className="w-3 h-3 mr-1 inline" /> Nabung ♡
+                        <IconPlus className="w-3 h-3 mr-1 inline" /> Nabung
                       </button>
                     </div>
                   </div>
@@ -238,8 +210,8 @@ export default function HomeScreen({
         <div className="dashboard-section">
           <div className="section-header">
             <div>
-              <h2 className="section-title">Catatan Harian</h2>
-              <p className="section-subtitle">Halaman tabungan terakhir Tasha</p>
+              <h2 className="section-title">Catatan Terbaru</h2>
+              <p className="section-subtitle">Transaksi tabungan terakhir</p>
             </div>
             <button
               type="button"
@@ -252,16 +224,16 @@ export default function HomeScreen({
 
           {recentEntries.length === 0 ? (
             <div className="empty-box">
-              <p className="font-semibold text-slate-700 text-xs">Belum ada catatan nabung</p>
+              <p className="font-semibold text-slate-700 text-xs">Belum ada catatan transaksi</p>
               <p className="text-[11.5px] text-slate-500 mt-1">
-                Catat setiap kali Tasha menabung, sekecil apa pun ♡
+                Catatan transaksi setoran akan muncul di sini.
               </p>
               <button
                 type="button"
                 className="btn-secondary btn-xs mt-3"
                 onClick={() => onOpenDeposit()}
               >
-                <IconPlus className="w-3 h-3 mr-1 inline" /> Catat Sekarang
+                <IconPlus className="w-3 h-3 mr-1 inline" /> Catat Tabungan
               </button>
             </div>
           ) : (

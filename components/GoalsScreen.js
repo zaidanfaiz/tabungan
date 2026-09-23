@@ -34,9 +34,9 @@ export default function GoalsScreen({
       {/* Header & Actions */}
       <div className="view-header">
         <div>
-          <h2 className="view-title">Impian &amp; Celengan Tasha ♡</h2>
+          <h2 className="view-title">Target Tabungan</h2>
           <p className="view-subtitle">
-            Buku catatan impian Tasha: perbarui target nominal, pasang foto impian, dan pantau tabungannya setiap saat ♡
+            Kelola nominal target, foto, dan pantau progres pencapaian.
           </p>
         </div>
         <button
@@ -44,7 +44,7 @@ export default function GoalsScreen({
           className="btn-primary btn-sm"
           onClick={onOpenNewGoal}
         >
-          <IconPlus className="w-3.5 h-3.5 mr-1 inline" /> Tambah Impian ♡
+          <IconPlus className="w-3.5 h-3.5 mr-1 inline" /> Tambah Target
         </button>
       </div>
 
@@ -77,7 +77,7 @@ export default function GoalsScreen({
 
           <input
             type="text"
-            placeholder="Cari impian Tasha..."
+            placeholder="Cari target..."
             className="search-input"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -91,16 +91,16 @@ export default function GoalsScreen({
           <div className="empty-icon-wrap">
             <IconPlus className="w-6 h-6 text-amber-700" />
           </div>
-          <h3 className="text-base font-bold text-slate-900 mt-3">Belum Ada Catatan Impian Tasha</h3>
+          <h3 className="text-base font-bold text-slate-900 mt-3">Belum Ada Target Tabungan</h3>
           <p className="text-xs text-slate-500 max-w-md mx-auto mt-1.5 leading-relaxed">
-            Tuliskan impian pertama Tasha, tentukan nominal target tabungan, dan pasang foto barang atau tujuan yang ingin Tasha capai ♡
+            Mulai dengan membuat target pertama untuk memantau progres tabungan Tasha.
           </p>
           <button
             type="button"
             className="btn-primary btn-sm mt-4"
             onClick={onOpenNewGoal}
           >
-            <IconPlus className="w-3.5 h-3.5 mr-1.5 inline" /> Buat Impian Pertama Tasha ♡
+            <IconPlus className="w-3.5 h-3.5 mr-1.5 inline" /> Tambah Target
           </button>
         </div>
       ) : filteredGoals.length === 0 ? (
@@ -219,14 +219,14 @@ export default function GoalsScreen({
 
                   <div className="goal-card-footer">
                     <span className="text-[11.5px] text-slate-500 font-medium">
-                      {Math.round(pct)}% {isCompleted ? "Tercapai ♡" : `(Sisa ${fmt(sisa)})`}
+                      {Math.round(pct)}% {isCompleted ? "Selesai" : `(Sisa ${fmt(sisa)})`}
                     </span>
                     <button
                       type="button"
                       className="btn-primary btn-xs"
                       onClick={() => onOpenDeposit(g.id)}
                     >
-                      <IconPlus className="w-3 h-3 mr-1 inline" /> Nabung ♡
+                      <IconPlus className="w-3 h-3 mr-1 inline" /> Nabung
                     </button>
                   </div>
                 </div>

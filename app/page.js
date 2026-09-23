@@ -97,8 +97,8 @@ export default function Page() {
     setIsGoalModalOpen(false);
     showToast(
       editingGoal
-        ? `Target <strong>${goalData.name}</strong> berhasil diperbarui, Tasha ♡`
-        : `Impian <strong>${goalData.name}</strong> berhasil ditambahkan, Tasha ♡`
+        ? `Target <strong>${goalData.name}</strong> berhasil diperbarui.`
+        : `Target <strong>${goalData.name}</strong> berhasil ditambahkan.`
     );
   };
 
@@ -107,8 +107,8 @@ export default function Page() {
       isOpen: true,
       type: "goal",
       item: goal,
-      title: "Hapus Target Impian?",
-      message: `Impian "${goal.name}" beserta catatan tabungannya akan dihapus dari diari.`,
+      title: "Hapus Target?",
+      message: `Target "${goal.name}" beserta catatan tabungannya akan dihapus secara permanen.`,
     });
   };
 
@@ -197,8 +197,8 @@ export default function Page() {
     setIsDepositModalOpen(false);
     showToast(
       editingEntry
-        ? `Catatan tabungan <strong>${fmt(entryData.a)}</strong> berhasil diperbarui ♡`
-        : `Tercatat, Tasha! <strong>${fmt(entryData.a)}</strong> masuk tabungan ♡`
+        ? `Catatan tabungan <strong>${fmt(entryData.a)}</strong> berhasil diperbarui.`
+        : `Setoran sebesar <strong>${fmt(entryData.a)}</strong> berhasil dicatat.`
     );
   };
 
@@ -208,7 +208,7 @@ export default function Page() {
       type: "entry",
       item: entry,
       title: "Hapus Catatan Tabungan?",
-      message: `Setoran sebesar ${fmt(entry.a)} pada tanggal ${entry.d} akan dihapus dari saldo impian.`,
+      message: `Setoran sebesar ${fmt(entry.a)} pada tanggal ${entry.d} akan dihapus dari saldo target.`,
     });
   };
 

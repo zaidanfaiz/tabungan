@@ -45,9 +45,9 @@ export default function HistoryScreen({
       {/* Header */}
       <div className="view-header">
         <div>
-          <h2 className="view-title">Riwayat Nabung Tasha ♡</h2>
+          <h2 className="view-title">Riwayat Tabungan</h2>
           <p className="view-subtitle">
-            Catatan setiap kali Tasha menyisihkan uang untuk impian manisnya ♡
+            Daftar transaksi setoran tabungan yang telah dicatat.
           </p>
         </div>
         {goals.length > 0 && (
@@ -56,7 +56,7 @@ export default function HistoryScreen({
             className="btn-primary btn-sm"
             onClick={() => onOpenDeposit()}
           >
-            <IconPlus className="w-3.5 h-3.5 mr-1 inline" /> Nabung ♡
+            <IconPlus className="w-3.5 h-3.5 mr-1 inline" /> Catat Tabungan
           </button>
         )}
       </div>
@@ -67,19 +67,19 @@ export default function HistoryScreen({
           <div className="flex items-center gap-2">
             <IconFilter className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-[11.5px] font-semibold text-slate-500 uppercase tracking-wider">
-              Filter Impian:
+              Filter Target:
             </span>
             <select
               className="input-select input-select-sm"
               value={selectedGoal}
               onChange={(e) => setSelectedGoal(e.target.value)}
             >
-              <option value="all">Semua Impian ({entries.length})</option>
+              <option value="all">Semua Target ({entries.length})</option>
               {goals.map((g) => {
                 const count = entries.filter((e) => e.g === g.id).length;
                 return (
                   <option key={g.id} value={g.id}>
-                    {g.name} ({count} catatan)
+                    {g.name} ({count} transaksi)
                   </option>
                 );
               })}
@@ -99,11 +99,11 @@ export default function HistoryScreen({
           <div className="empty-icon-wrap">
             <IconCalendar className="w-6 h-6 text-amber-700" />
           </div>
-          <h3 className="text-base font-bold text-slate-900 mt-3">Belum Ada Catatan Nabung</h3>
+          <h3 className="text-base font-bold text-slate-900 mt-3">Belum Ada Transaksi</h3>
           <p className="text-xs text-slate-500 max-w-md mx-auto mt-1.5 leading-relaxed">
             {goals.length === 0
-              ? "Buat target impian terlebih dahulu sebelum mencatat setoran tabungan pertamamu, Tasha ♡"
-              : "Setiap kali Tasha menyisihkan uang, catat nominal dan tujuannya di sini agar riwayat perkembangan tabunganmu terekam rapi ♡"}
+              ? "Buat target tabungan terlebih dahulu sebelum mencatat setoran."
+              : "Setiap setoran tabungan yang dicatat akan tersimpan di sini."}
           </p>
           {goals.length > 0 && (
             <button
@@ -111,22 +111,22 @@ export default function HistoryScreen({
               className="btn-primary btn-sm mt-4"
               onClick={() => onOpenDeposit()}
             >
-              <IconPlus className="w-3.5 h-3.5 mr-1.5 inline" /> Catat Nabung Pertama ♡
+              <IconPlus className="w-3.5 h-3.5 mr-1.5 inline" /> Catat Tabungan
             </button>
           )}
         </div>
       ) : filteredEntries.length === 0 ? (
         <div className="empty-box py-10">
-          <p className="font-semibold text-slate-700 text-sm">Tidak ada catatan untuk impian ini</p>
+          <p className="font-semibold text-slate-700 text-sm">Tidak ada transaksi untuk target ini</p>
           <p className="text-xs text-slate-500 mt-1">
-            Belum ada catatan setoran tabungan untuk impian yang dipilih.
+            Belum ada catatan setoran untuk target yang dipilih.
           </p>
           <button
             type="button"
             className="btn-secondary btn-xs mt-3"
             onClick={() => setSelectedGoal("all")}
           >
-            Tampilkan Semua Catatan
+            Tampilkan Semua
           </button>
         </div>
       ) : (
