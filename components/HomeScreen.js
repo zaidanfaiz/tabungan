@@ -1,453 +1,265 @@
 "use client";
 
 import {
-  GOALS,
-  DAILY,
-  MILESTONES,
-  MESSAGES,
-  HARI,
-  BULAN,
-  MINGGU,
-} from "@/lib/constants";
-import {
   fmt,
-  fmtShort,
   pctOf,
-  totalSaved,
-  targetTotal,
-  entriesOn,
+  totalSavedAll,
+  targetTotalAll,
   calculateStreak,
-  key,
-  today,
-  shift,
-  dayLabel,
+  formatDateShort,
 } from "@/lib/storage";
+import {
+  IconPlus,
+  IconPencil,
+  IconTrash,
+  IconArrowRight,
+  IconCalendar,
+} from "@/components/Icons";
 
 export default function HomeScreen({
-  state,
-  onOpenSheet,
-  onGoto,
-  isSavedJustNow,
+  goals = [],
+  entries = [],
+  onOpenDeposit,
+  onOpenNewGoal,
+  onEditGoal,
+  onDeleteGoal,
+  onEditEntry,
+  onDeleteEntry,
+  onNavigateTab,
 }) {
-  const now = new Date();
-  const tKey = today();
-  const total = totalSaved(state.goals);
-  const target = targetTotal();
-  const pct = pctOf(total, target);
-  const remaining = Math.max(0, target - total);
-  const streakCount = calculateStreak(state.entries);
+  const totalSaved = totalSavedAll(goals);
+  const totalTarget = targetTotalAll(goals);
+  const globalPct = pctOf(totalSaved, totalTarget);
+  const remaining = Math.max(0, totalTarget - totalSaved);
+  const streak = calculateStreak(entries);
 
-  // Motivational message based on day of month
-  const msgIndex = Math.floor(now.getDate() / 3) % MESSAGES.length;
-  const heroMsg = MESSAGES[msgIndex];
-
-  // Current date formatted: e.g. "Rabu, 23 September 2026"
-  const formattedDate = `${HARI[now.getDay()]}, ${now.getDate()} ${BULAN[now.getMonth()]} ${now.getFullYear()}`;
-
-  // Week days starting from Monday
-  const monday = shift(now, -((now.getDay() + 6) % 7));
-  const weekDays = Array.from({ length: 7 }, (_, i) => {
-    const d = shift(monday, i);
-    const dKey = key(d);
-    const list = entriesOn(state.entries, dKey);
-    const isToday = dKey === tKey;
-    const isFuture = d > now && !isToday;
-    const sum = list.reduce((a, e) => a + e.a, 0);
-    return { date: d, key: dKey, list, isToday, isFuture, sum };
-  });
-
-  // Recent 7 days for streak dots
-  const last7 = state.entries.slice(0, 40);
-  const streakDots = Array.from({ length: 7 }, (_, i) => {
-    const k = key(shift(new Date(), -(6 - i)));
-    return last7.some((e) => e.d === k);
-  });
-
-  // History grouped by date
-  const groups = new Map();
-  for (const e of state.entries) {
-    if (!groups.has(e.d)) groups.set(e.d, { sum: 0, notes: [], goals: new Set() });
-    const g = groups.get(e.d);
-    g.sum += e.a;
-    if (e.n) g.notes.push(e.n);
-    g.goals.add(e.g);
-  }
-  const historyList = [...groups.entries()].slice(0, 5);
+  // Recent 5 entries
+  const recentEntries = entries.slice(0, 5);
 
   return (
-    <div className="pad">
-      <div className="home-grid">
-        {/* Left Column: Hero & Action Focus */}
-        <div className="home-col-main">
-          {/* Hero Card */}
-          <article className="hero">
-            <svg className="deco deco--spark" aria-hidden="true">
-              <use href="#d-spark" />
-            </svg>
-            <svg className="deco deco--flower" aria-hidden="true">
-              <use href="#d-flower" />
-            </svg>
-            <p className="hero-hi">
-              Hi Tasha{" "}
-              <svg className="hero-hi-heart" aria-hidden="true">
-                <use href="#d-heart" />
-              </svg>
-            </p>
-            <p className="hero-date">{formattedDate}</p>
-            <p className="hero-amount">{fmt(total)}</p>
-            <p className="hero-sub">
-              dari total impian <strong>{fmt(target)}</strong>
-            </p>
-
-            <div
-              className="prog"
-              role="progressbar"
-              aria-label="Progres menuju total impian"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={Math.round(pct)}
-            >
+    <div className="view-container">
+      {/* Metrics Row */}
+      <div className="metrics-grid">
+        <div className="metric-card metric-card-primary">
+          <p className="metric-label text-slate-400">Total Tabungan Terkumpul</p>
+          <p className="metric-value text-white">{fmt(totalSaved)}</p>
+          <div className="metric-footer">
+            <div className="progress-bar-wrap">
               <div
-                className="prog-fill prog-fill--ribbon"
-                style={{ width: `${Math.min(100, pct)}%` }}
-              >
-                <svg className="prog-knob" aria-hidden="true">
-                  <use href="#d-heart-f" />
-                </svg>
-              </div>
+                className="progress-bar-fill bg-emerald-400"
+                style={{ width: `${globalPct}%` }}
+              />
             </div>
-
-            <div className="hero-meta">
-              <span>{Math.round(pct)}% tercapai</span>
-              <span>
-                sisa <strong>{fmt(remaining)}</strong>
-              </span>
+            <div className="flex justify-between items-center text-xs text-slate-300 mt-2">
+              <span>{Math.round(globalPct)}% dari target</span>
+              <span>Sisa {fmt(remaining)}</span>
             </div>
-
-            <p className="hero-msg">{heroMsg}</p>
-          </article>
-
-          {/* Main Action CTA */}
-          <div className="cta">
-            <button
-              className={`btn-save ${isSavedJustNow ? "is-done" : ""}`}
-              type="button"
-              onClick={() => onOpenSheet()}
-            >
-              <span className="btn-save-label">
-                {isSavedJustNow ? (
-                  <>
-                    Tercatat, Tasha{" "}
-                    <svg aria-hidden="true">
-                      <use href="#d-check" />
-                    </svg>
-                  </>
-                ) : (
-                  <>
-                    Nabung hari ini{" "}
-                    <svg aria-hidden="true">
-                      <use href="#d-heart" />
-                    </svg>
-                  </>
-                )}
-              </span>
-              <span className="btn-save-amt">{fmt(DAILY)}</span>
-            </button>
-            <p className="cta-hint">ketuk untuk ganti jumlah &amp; pilih impian</p>
-          </div>
-
-          {/* Streak Line */}
-          <div className="streakline">
-            <svg className="streakline-flame" aria-hidden="true">
-              <use href="#d-flame" />
-            </svg>
-            <p>
-              {streakCount > 0 ? (
-                <>
-                  <strong>{streakCount}</strong> hari berturut-turut
-                </>
-              ) : (
-                "belum ada streak, mulai dari hari ini ♡"
-              )}
-            </p>
-            <div className="dots" aria-hidden="true">
-              {streakDots.map((on, idx) => (
-                <i key={idx} className={on ? "is-on" : ""} />
-              ))}
-            </div>
-          </div>
-
-          {/* Small Milestones */}
-          <div className="sec-head sec-head--plain">
-            <h2 className="sec-title">Milestone kecil</h2>
-          </div>
-          <div className="miles">
-            {MILESTONES.map((m) => {
-              const reached = total >= m;
-              const sub = reached ? "tercapai" : `sisa ${fmt(m - total)}`;
-              const icon = reached ? "#d-check" : "#d-lock";
-              return (
-                <article
-                  key={m}
-                  className={`mile ${reached ? "mile--on" : ""}`}
-                >
-                  <span className="mile-icon">
-                    <svg aria-hidden="true">
-                      <use href={icon} />
-                    </svg>
-                  </span>
-                  <p className="mile-amt">{fmt(m)}</p>
-                  <p className="mile-sub">{sub}</p>
-                </article>
-              );
-            })}
           </div>
         </div>
 
-        {/* Right Column: Goals, Week, & History */}
-        <div className="home-col-side">
-          {/* Impianmu Quick Section */}
-          <div className="sec-head">
-            <h2 className="sec-title">Impianmu</h2>
-            <button
-              className="link"
-              type="button"
-              onClick={() => onGoto("dreams")}
-            >
-              semua impian{" "}
-              <svg aria-hidden="true">
-                <use href="#d-arrow" />
-              </svg>
-            </button>
+        <div className="metric-card">
+          <p className="metric-label text-slate-500">Target Keseluruhan</p>
+          <p className="metric-value text-slate-900">{fmt(totalTarget)}</p>
+          <p className="text-xs text-slate-500 mt-3">
+            Tersebar di <strong>{goals.length}</strong> target impian aktif
+          </p>
+        </div>
+
+        <div className="metric-card">
+          <p className="metric-label text-slate-500">Streak Menabung</p>
+          <div className="flex items-baseline gap-2">
+            <p className="metric-value text-emerald-600">{streak}</p>
+            <span className="text-sm font-semibold text-slate-600">hari berturut-turut</span>
+          </div>
+          <p className="text-xs text-slate-500 mt-3">
+            {streak > 0 ? "Pertahankan konsistensimu!" : "Mulai menabung hari ini untuk membangun streak."}
+          </p>
+        </div>
+      </div>
+
+      {/* Main Grid: Goals Summary & Recent Activities */}
+      <div className="home-dashboard-layout">
+        {/* Left/Main Column: Active Goals */}
+        <div className="dashboard-section">
+          <div className="section-header">
+            <div>
+              <h2 className="section-title">Target Impian</h2>
+              <p className="section-subtitle">Daftar target yang sedang kamu kumpulkan</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                className="btn-link"
+                onClick={() => onNavigateTab("goals")}
+              >
+                Lihat Semua ({goals.length}) <IconArrowRight className="w-4 h-4 ml-1 inline" />
+              </button>
+            </div>
           </div>
 
-          <div className="goals">
-            {/* iPad */}
-            <article className="goal">
-              <div className="goal-art goal-art--peach">
-                <svg aria-hidden="true">
-                  <use href="#d-ipad" />
-                </svg>
-              </div>
-              <div className="goal-body">
-                <div className="goal-top">
-                  <h3>{GOALS.ipad.name}</h3>
-                  <span className="goal-pct">
-                    {Math.round(pctOf(state.goals.ipad.saved, GOALS.ipad.target))}%
-                  </span>
-                </div>
-                <p className="goal-target">{fmt(GOALS.ipad.target)}</p>
-                <div
-                  className="prog prog--sm"
-                  role="progressbar"
-                  aria-label={`Progres ${GOALS.ipad.name}`}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={Math.round(
-                    pctOf(state.goals.ipad.saved, GOALS.ipad.target)
-                  )}
-                >
-                  <div
-                    className="prog-fill prog-fill--peach"
-                    style={{
-                      width: `${Math.min(
-                        100,
-                        pctOf(state.goals.ipad.saved, GOALS.ipad.target)
-                      )}%`,
-                    }}
-                  />
-                </div>
-                <div className="goal-foot">
-                  <p className="goal-left">
-                    sisa{" "}
-                    <strong>
-                      {fmt(Math.max(0, GOALS.ipad.target - state.goals.ipad.saved))}
-                    </strong>
-                  </p>
-                  <button
-                    className="mini-btn"
-                    type="button"
-                    onClick={() => onOpenSheet("ipad")}
-                  >
-                    nabung{" "}
-                    <svg aria-hidden="true">
-                      <use href="#d-heart" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </article>
-
-            {/* iPhone */}
-            <article className="goal">
-              <div className="goal-art goal-art--lav">
-                <svg aria-hidden="true">
-                  <use href="#d-iphone" />
-                </svg>
-              </div>
-              <div className="goal-body">
-                <div className="goal-top">
-                  <h3>{GOALS.iphone.name}</h3>
-                  <span className="goal-pct">
-                    {Math.round(pctOf(state.goals.iphone.saved, GOALS.iphone.target))}%
-                  </span>
-                </div>
-                <p className="goal-target">{fmt(GOALS.iphone.target)}</p>
-                <div
-                  className="prog prog--sm"
-                  role="progressbar"
-                  aria-label={`Progres ${GOALS.iphone.name}`}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={Math.round(
-                    pctOf(state.goals.iphone.saved, GOALS.iphone.target)
-                  )}
-                >
-                  <div
-                    className="prog-fill prog-fill--lav"
-                    style={{
-                      width: `${Math.min(
-                        100,
-                        pctOf(state.goals.iphone.saved, GOALS.iphone.target)
-                      )}%`,
-                    }}
-                  />
-                </div>
-                <div className="goal-foot">
-                  <p className="goal-left">
-                    sisa{" "}
-                    <strong>
-                      {fmt(
-                        Math.max(0, GOALS.iphone.target - state.goals.iphone.saved)
-                      )}
-                    </strong>
-                  </p>
-                  <button
-                    className="mini-btn"
-                    type="button"
-                    onClick={() => onOpenSheet("iphone")}
-                  >
-                    nabung{" "}
-                    <svg aria-hidden="true">
-                      <use href="#d-heart" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </article>
-          </div>
-
-          {/* Minggu ini */}
-          <div className="sec-head">
-            <h2 className="sec-title">Minggu ini</h2>
-            <button
-              className="link"
-              type="button"
-              onClick={() => onGoto("journey")}
-            >
-              buka catatan{" "}
-              <svg aria-hidden="true">
-                <use href="#d-arrow" />
-              </svg>
-            </button>
-          </div>
-
-          <div className="week">
-            {weekDays.map((w, idx) => {
-              let cls = "day";
-              if (w.isFuture) cls += " day--future";
-              else if (w.list.length) cls += " day--done";
-              if (w.isToday) cls += " day--today";
-
-              let status = null;
-              if (w.list.length) {
-                status = (
-                  <>
-                    <svg aria-hidden="true">
-                      <use href="#d-check" />
-                    </svg>
-                    <b>{fmtShort(w.sum)}</b>
-                  </>
-                );
-              } else if (w.isToday) {
-                status = "isi ♡";
-              }
-
-              const inner = (
-                <>
-                  <span className="day-k">{MINGGU[idx]}</span>
-                  <span className="day-n">{w.date.getDate()}</span>
-                  <span className="day-s">{status}</span>
-                </>
-              );
-
-              return w.isToday ? (
-                <button
-                  key={w.key}
-                  className={cls}
-                  type="button"
-                  onClick={() => onOpenSheet()}
-                  aria-label="Isi halaman hari ini"
-                >
-                  {inner}
-                </button>
-              ) : (
-                <div key={w.key} className={cls}>
-                  {inner}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Riwayat terakhir */}
-          <div className="sec-head">
-            <h2 className="sec-title">Riwayat terakhir</h2>
-            <button
-              className="link"
-              type="button"
-              onClick={() => onGoto("journey")}
-            >
-              lihat semua{" "}
-              <svg aria-hidden="true">
-                <use href="#d-arrow" />
-              </svg>
-            </button>
-          </div>
-
-          <div className="hist">
-            {historyList.length === 0 ? (
-              <div className="empty">
-                <strong>Belum ada catatan</strong>
-                Isi halaman hari ini, riwayatnya mulai terbentuk.
-              </div>
-            ) : (
-              historyList.map(([dKey, g]) => {
-                const note = g.notes.length
-                  ? g.notes.join(" · ")
-                  : "nabung ke " +
-                    [...g.goals].map((id) => GOALS[id]?.short).join(" & ");
-                const onlyIphone = g.goals.size === 1 && g.goals.has("iphone");
+          {goals.length === 0 ? (
+            <div className="empty-box">
+              <p className="font-semibold text-slate-700">Belum ada target impian</p>
+              <p className="text-sm text-slate-500 mt-1">Mulai rencanakan impian masa depanmu sekarang.</p>
+              <button
+                type="button"
+                className="btn-primary btn-sm mt-4"
+                onClick={onOpenNewGoal}
+              >
+                <IconPlus className="w-4 h-4 mr-1 inline" /> Buat Target Pertama
+              </button>
+            </div>
+          ) : (
+            <div className="goals-cards-grid">
+              {goals.slice(0, 4).map((g) => {
+                const pct = pctOf(g.saved, g.target);
+                const sisa = Math.max(0, g.target - g.saved);
                 return (
-                  <div key={dKey} className="row row--in">
-                    <span
-                      className={`row-stamp ${
-                        onlyIphone ? "row-stamp--lav" : ""
-                      }`}
-                    >
-                      <svg aria-hidden="true">
-                        <use href="#d-heart-f" />
-                      </svg>
-                    </span>
-                    <div className="row-body">
-                      <p className="row-when">{dayLabel(dKey)}</p>
-                      <p className="row-note">{note}</p>
+                  <div key={g.id} className="goal-card">
+                    {/* Optional Goal Photo */}
+                    {g.image && (
+                      <div className="goal-photo-wrap">
+                        <img src={g.image} alt={g.name} className="goal-photo" />
+                      </div>
+                    )}
+
+                    <div className="goal-card-body">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <span className="badge-category">{g.category || "Umum"}</span>
+                          <h3 className="goal-name">{g.name}</h3>
+                        </div>
+                        <div className="goal-actions-row">
+                          <button
+                            type="button"
+                            className="btn-action-icon"
+                            title="Edit Target"
+                            onClick={() => onEditGoal(g)}
+                          >
+                            <IconPencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-action-icon btn-action-danger"
+                            title="Hapus Target"
+                            onClick={() => onDeleteGoal(g)}
+                          >
+                            <IconTrash className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="goal-amount-row">
+                        <div>
+                          <p className="text-xs text-slate-400">Terkumpul</p>
+                          <p className="text-base font-bold text-slate-800">{fmt(g.saved)}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xs text-slate-400">Target</p>
+                          <p className="text-sm font-semibold text-slate-600">{fmt(g.target)}</p>
+                        </div>
+                      </div>
+
+                      <div className="progress-bar-wrap">
+                        <div
+                          className="progress-bar-fill bg-emerald-500"
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+
+                      <div className="goal-card-footer">
+                        <span className="text-xs text-slate-500 font-medium">
+                          {Math.round(pct)}% (Sisa {fmt(sisa)})
+                        </span>
+                        <button
+                          type="button"
+                          className="btn-primary btn-xs"
+                          onClick={() => onOpenDeposit(g.id)}
+                        >
+                          <IconPlus className="w-3.5 h-3.5 mr-1 inline" /> Nabung
+                        </button>
+                      </div>
                     </div>
-                    <span className="row-amt">+{fmt(g.sum)}</span>
                   </div>
                 );
-              })
-            )}
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Right/Side Column: Recent Transactions */}
+        <div className="dashboard-section">
+          <div className="section-header">
+            <div>
+              <h2 className="section-title">Riwayat Terakhir</h2>
+              <p className="section-subtitle">Catatan setoran tabungan terbaru</p>
+            </div>
+            <button
+              type="button"
+              className="btn-link"
+              onClick={() => onNavigateTab("history")}
+            >
+              Semua ({entries.length}) <IconArrowRight className="w-4 h-4 ml-1 inline" />
+            </button>
           </div>
+
+          {recentEntries.length === 0 ? (
+            <div className="empty-box">
+              <p className="font-semibold text-slate-700">Belum ada transaksi</p>
+              <p className="text-sm text-slate-500 mt-1">Setoran pertama akan muncul di sini.</p>
+              <button
+                type="button"
+                className="btn-secondary btn-sm mt-4"
+                onClick={() => onOpenDeposit()}
+              >
+                <IconPlus className="w-4 h-4 mr-1 inline" /> Catat Tabungan
+              </button>
+            </div>
+          ) : (
+            <div className="recent-list">
+              {recentEntries.map((e) => {
+                const targetGoal = goals.find((g) => g.id === e.g);
+                return (
+                  <div key={e.id} className="transaction-item">
+                    <div className="transaction-info">
+                      <p className="transaction-title">
+                        {targetGoal ? targetGoal.name : "Target Telah Dihapus"}
+                      </p>
+                      <div className="transaction-meta">
+                        <span className="flex items-center gap-1">
+                          <IconCalendar className="w-3.5 h-3.5 text-slate-400" />
+                          {formatDateShort(e.d)}
+                        </span>
+                        {e.n && <span>· {e.n}</span>}
+                      </div>
+                    </div>
+
+                    <div className="transaction-amount-col">
+                      <span className="transaction-amount">+{fmt(e.a)}</span>
+                      <div className="transaction-actions">
+                        <button
+                          type="button"
+                          className="btn-icon-subtle"
+                          title="Edit Catatan"
+                          onClick={() => onEditEntry(e)}
+                        >
+                          <IconPencil className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-icon-subtle text-red-500 hover:text-red-700"
+                          title="Hapus Catatan"
+                          onClick={() => onDeleteEntry(e)}
+                        >
+                          <IconTrash className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

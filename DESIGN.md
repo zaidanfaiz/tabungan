@@ -1,24 +1,31 @@
-# Design Direction: Tasha's Little Savings
+# Design Direction: Tabungan (Personal Savings & Goals Tracker)
 
 ## Identity & Concept
-- **Product**: Personal savings diary app, "Tasha's Little Savings".
-- **Concept**: A gentle, personal, cozy savings companion focused on saving incrementally every day towards two tangible dreams (iPad & iPhone 11 Pro Max).
-- **Tone**: Warm, encouraging, intimate, conversational Indonesian ("dua impian, satu halaman setiap hari", "Pelan-pelan juga tetap maju, ya ♡").
+- **Product**: Modern Financial Savings & Goals Manager.
+- **Concept**: A crisp, professional, clean personal finance dashboard that tracks savings goals, milestones, and daily transaction logs with complete CRUD management.
+- **Aesthetic**: Modern Minimalist Fintech (inspired by Apple Wallet and Wise simplicity).
+- **Tone**: Clean, professional, trustworthy, and actionable.
 
 ## Palette & Surface
-- **Surface**: Warm ivory parchment paper (`#FCF7F0` base, `#F4ECE1` deeper background, `#FFFDFA` card paper) with subtle paper grain texture.
-- **Ink**: Deep warm brown ink (`#3A302C`) and muted text (`#6E625B`).
-- **Accent Rose**: Action color (`#E0A2A8`, `#97515A`).
-- **Identity Colors**:
-  - Peach (`#EEA97F`, tint `#FBE8DA`) for iPad goal.
-  - Lavender (`#A99BD1`, tint `#ECE6F6`) for iPhone goal.
-  - Butter yellow (`#F3DEA4`) reserved exclusively for streak/flame highlights.
+- **Background**: Soft neutral canvas (`#F8FAFC` base, `#F1F5F9` subtle section contrast).
+- **Card Surface**: Crisp pure white (`#FFFFFF`) with precise 1px borders (`#E2E8F0` / dark-tint `#CBD5E1`).
+- **Typography & Ink**:
+  - Primary text: Deep slate (`#0F172A`).
+  - Muted secondary text: Neutral slate (`#64748B`).
+- **Accents**:
+  - Primary Action / Brand: Deep Navy / Slate Obsidian (`#0F172A`, hover `#1E293B`).
+  - Success / Growth: Emerald Green (`#10B981`, deep `#059669`, tint `#ECFDF5`) for savings progress, positive cash flow, and achieved targets.
+  - Alert / Destructive: Soft Crimson (`#EF4444`, tint `#FEF2F2`) for delete confirmations.
 
 ## Typography
-- **Display / Voice**: `Fraunces` (serif) — handles headings, big numbers, diary titles.
-- **Reading / Body**: `Nunito` (rounded sans) — handles UI labels, body text, buttons, chips.
+- **Font**: `Plus Jakarta Sans` or `Inter` (high-clarity modern geometric sans-serif with tabular numeric figures).
+- **Hierarchy**:
+  - Big stats & balances: 28px - 36px font-bold with tabular numerals.
+  - Section titles: 18px - 20px font-semibold.
+  - Body & labels: 13px - 14px font-medium.
+  - Micro-copy & badges: 12px font-medium.
 
 ## Dials (antislop R-37)
-- **ENERGY**: 2 — Warm, cozy, personal; never corporate or cold.
-- **RHYTHM**: 2 — Clear vertical flow with distinct visual hierarchy between hero, goals, weekly strip, and diary list.
-- **MOTION**: 2 — Tactile pops, smooth sheet transitions, celebratory confetti bursts upon saving.
+- **ENERGY**: 2 — Balanced, modern, professional; neither sterile nor childish.
+- **RHYTHM**: 2 — Clear executive dashboard hierarchy (metrics row -> goals grid -> transaction ledger).
+- **MOTION**: 1 — Subtle tactile feedback (150ms transitions on hover/press, smooth modal fades).

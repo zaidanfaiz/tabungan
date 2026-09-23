@@ -1,53 +1,64 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import SvgSprite from "@/components/SvgSprite";
 import TopBar from "@/components/TopBar";
 import TabBar from "@/components/TabBar";
 import HomeScreen from "@/components/HomeScreen";
-import JourneyScreen from "@/components/JourneyScreen";
-import DreamsScreen from "@/components/DreamsScreen";
-import AddEntrySheet from "@/components/AddEntrySheet";
-import ConfettiFx from "@/components/ConfettiFx";
+import GoalsScreen from "@/components/GoalsScreen";
+import HistoryScreen from "@/components/HistoryScreen";
+import GoalModal from "@/components/GoalModal";
+import EntryModal from "@/components/EntryModal";
+import DeleteConfirmModal from "@/components/DeleteConfirmModal";
 import ToastContainer from "@/components/ToastContainer";
-import { GOALS, MILESTONES } from "@/lib/constants";
-import {
-  loadState,
-  saveState,
-  defaultState,
-  totalSaved,
-  calculateStreak,
-  today,
-  fmt,
-} from "@/lib/storage";
-
-const FX_SHAPES = [
-  ["#d-heart-f", "#C4767E"],
-  ["#d-spark", "#E9CE86"],
-  ["#d-star", "#A99BD1"],
-  ["#d-heart", "#E0A2A8"],
-  ["#d-heart-f", "#AA5C65"],
-  ["#d-spark", "#EEA97F"],
-];
+import { loadState, saveState, defaultState, fmt } from "@/lib/storage";
 
 export default function Page() {
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("overview");
   const [state, setState] = useState(defaultState());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [sheetGoal, setSheetGoal] = useState("ipad");
-  const [isSavedJustNow, setIsSavedJustNow] = useState(false);
-  const [toasts, setToasts] = useState([]);
-  const [particles, setParticles] = useState([]);
 
-  // Load from localStorage on client mount
+  // Modals state
+  const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
+  const [editingGoal, setEditingGoal] = useState(null);
+
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+  const [editingEntry, setEditingEntry] = useState(null);
+  const [depositGoalId, setDepositGoalId] = useState("");
+
+  const [deleteModalState, setDeleteModalState] = useState({
+    isOpen: false,
+    type: null, // "goal" or "entry"
+    item: null,
+    title: "",
+    message: "",
+  });
+
+  const [toasts, setToasts] = useState([]);
+
+  // Load from localStorage on mount
   useEffect(() => {
     setState(loadState());
     setIsLoaded(true);
   }, []);
 
-  // Save changes to localStorage
-  const updateState = useCallback((updater) => {
+  // Toast notification helper
+  const showToast = useCallback((message, type = "success") => {
+    const id = Date.now() + Math.random();
+    setToasts((prev) => [...prev.slice(-2), { id, html: message, isOut: false }]);
+
+    setTimeout(() => {
+      setToasts((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, isOut: true } : t))
+      );
+    }, 2800);
+
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3200);
+  }, []);
+
+  // Update & persist state
+  const persistState = useCallback((updater) => {
     setState((prev) => {
       const next = typeof updater === "function" ? updater(prev) : updater;
       saveState(next);
@@ -55,190 +66,232 @@ export default function Page() {
     });
   }, []);
 
-  // Toast notification helper
-  const showToast = useCallback((html, ms = 3000) => {
-    const id = Date.now() + Math.random();
-    setToasts((prev) => [...prev.slice(-2), { id, html, isOut: false }]);
+  // ── GOAL CRUD HANDLERS ──────────────────────────────────────
 
-    setTimeout(() => {
-      setToasts((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, isOut: true } : t))
-      );
-    }, ms);
+  const handleOpenNewGoal = () => {
+    setEditingGoal(null);
+    setIsGoalModalOpen(true);
+  };
 
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, ms + 400);
-  }, []);
+  const handleEditGoal = (goal) => {
+    setEditingGoal(goal);
+    setIsGoalModalOpen(true);
+  };
 
-  // Confetti burst animation helper
-  const triggerBurst = useCallback((cx, cy, count = 14) => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const newParticles = Array.from({ length: count }, (_, i) => {
-      const [icon, color] = FX_SHAPES[i % FX_SHAPES.length];
-      const size = 9 + Math.random() * 8;
-      return {
-        id: Date.now() + Math.random() + i,
-        x: cx + (Math.random() * 76 - 38),
-        y: cy + (Math.random() * 16 - 8),
-        size,
-        color,
-        icon,
-        delay: i * 45,
-        sw1: (Math.random() * 36 - 18).toFixed(1),
-        sw2: (Math.random() * 70 - 35).toFixed(1),
-        rot: (Math.random() * 50 - 25).toFixed(1),
-        rot2: (Math.random() * 90 - 45).toFixed(1),
-      };
+  const handleSaveGoal = (goalData) => {
+    persistState((prev) => {
+      const exists = prev.goals.some((g) => g.id === goalData.id);
+      let updatedGoals;
+      if (exists) {
+        // Update existing goal preserving its saved amount
+        updatedGoals = prev.goals.map((g) =>
+          g.id === goalData.id
+            ? { ...g, ...goalData, saved: g.saved }
+            : g
+        );
+      } else {
+        // Add new goal
+        updatedGoals = [goalData, ...prev.goals];
+      }
+      return { ...prev, goals: updatedGoals };
     });
 
-    setParticles((prev) => [...prev, ...newParticles]);
+    setIsGoalModalOpen(false);
+    showToast(
+      editingGoal
+        ? `Target <strong>${goalData.name}</strong> berhasil diperbarui.`
+        : `Target <strong>${goalData.name}</strong> berhasil ditambahkan!`
+    );
+  };
 
-    setTimeout(() => {
-      const idsToRemove = new Set(newParticles.map((p) => p.id));
-      setParticles((prev) => prev.filter((p) => !idsToRemove.has(p.id)));
-    }, 2500);
-  }, []);
+  const handleRequestDeleteGoal = (goal) => {
+    setDeleteModalState({
+      isOpen: true,
+      type: "goal",
+      item: goal,
+      title: "Hapus Target Impian?",
+      message: `Target "${goal.name}" beserta riwayat tabungannya akan dihapus secara permanen.`,
+    });
+  };
 
-  // Open save sheet with optional initial goal
-  const handleOpenSheet = useCallback((goalId) => {
-    if (goalId) setSheetGoal(goalId);
-    setIsSheetOpen(true);
-  }, []);
+  const handleConfirmDelete = () => {
+    const { type, item } = deleteModalState;
+    if (!item) return;
 
-  // Handle entry submission from sheet
-  const handleAddEntry = useCallback(
-    ({ amount, goal }) => {
-      const beforeTotal = totalSaved(state.goals);
-      const afterTotal = beforeTotal + amount;
-      const targetGoal = GOALS[goal] || GOALS.ipad;
-
-      updateState((prev) => {
-        const nextSaved = (prev.goals[goal]?.saved || 0) + amount;
-        const newEntry = {
-          d: today(),
-          a: amount,
-          g: goal,
-          n: null,
-        };
-        return {
-          ...prev,
-          goals: {
-            ...prev.goals,
-            [goal]: { saved: nextSaved },
-          },
-          entries: [newEntry, ...prev.entries],
-        };
+    if (type === "goal") {
+      persistState((prev) => ({
+        ...prev,
+        goals: prev.goals.filter((g) => g.id !== item.id),
+        entries: prev.entries.filter((e) => e.g !== item.id),
+      }));
+      showToast(`Target <strong>${item.name}</strong> telah dihapus.`);
+    } else if (type === "entry") {
+      persistState((prev) => {
+        const nextEntries = prev.entries.filter((e) => e.id !== item.id);
+        const nextGoals = prev.goals.map((g) => {
+          if (g.id === item.g) {
+            return { ...g, saved: Math.max(0, (Number(g.saved) || 0) - Number(item.a)) };
+          }
+          return g;
+        });
+        return { ...prev, goals: nextGoals, entries: nextEntries };
       });
+      showToast(`Catatan tabungan <strong>${fmt(item.a)}</strong> telah dihapus.`);
+    }
 
-      setIsSheetOpen(false);
+    setDeleteModalState({ isOpen: false, type: null, item: null, title: "", message: "" });
+  };
 
-      // Celebration effects
-      if (typeof window !== "undefined") {
-        const x = window.innerWidth / 2;
-        const y = window.innerHeight * 0.45;
-        triggerBurst(x, y);
+  // ── TRANSACTION / ENTRY CRUD HANDLERS ───────────────────────
+
+  const handleOpenDeposit = (goalId = "") => {
+    setEditingEntry(null);
+    setDepositGoalId(goalId || (state.goals[0]?.id || ""));
+    setIsDepositModalOpen(true);
+  };
+
+  const handleEditEntry = (entry) => {
+    setEditingEntry(entry);
+    setDepositGoalId(entry.g);
+    setIsDepositModalOpen(true);
+  };
+
+  const handleSaveEntry = (entryData) => {
+    persistState((prev) => {
+      let nextEntries;
+      let nextGoals;
+
+      if (editingEntry) {
+        // Recalculate difference if amount or goal changed
+        const oldAmount = Number(editingEntry.a) || 0;
+        const newAmount = Number(entryData.a) || 0;
+        const oldGoalId = editingEntry.g;
+        const newGoalId = entryData.g;
+
+        nextEntries = prev.entries.map((e) =>
+          e.id === entryData.id ? entryData : e
+        );
+
+        nextGoals = prev.goals.map((g) => {
+          if (oldGoalId === newGoalId && g.id === newGoalId) {
+            return { ...g, saved: Math.max(0, (Number(g.saved) || 0) - oldAmount + newAmount) };
+          }
+          if (g.id === oldGoalId) {
+            return { ...g, saved: Math.max(0, (Number(g.saved) || 0) - oldAmount) };
+          }
+          if (g.id === newGoalId) {
+            return { ...g, saved: (Number(g.saved) || 0) + newAmount };
+          }
+          return g;
+        });
+      } else {
+        // New deposit entry
+        nextEntries = [entryData, ...prev.entries];
+        nextGoals = prev.goals.map((g) => {
+          if (g.id === entryData.g) {
+            return { ...g, saved: (Number(g.saved) || 0) + Number(entryData.a) };
+          }
+          return g;
+        });
       }
 
-      setIsSavedJustNow(true);
-      setTimeout(() => setIsSavedJustNow(false), 1800);
+      return { ...prev, goals: nextGoals, entries: nextEntries };
+    });
 
-      // Check milestones
-      const crossed = MILESTONES.find(
-        (m) => beforeTotal < m && afterTotal >= m
-      );
+    setIsDepositModalOpen(false);
+    showToast(
+      editingEntry
+        ? `Transaksi <strong>${fmt(entryData.a)}</strong> berhasil diperbarui.`
+        : `Tabungan sebesar <strong>${fmt(entryData.a)}</strong> berhasil dicatat!`
+    );
+  };
 
-      const currentStreak = calculateStreak([
-        { d: today() },
-        ...state.entries,
-      ]);
-
-      showToast(
-        `<b>${fmt(amount)}</b> masuk ke ${targetGoal.short} · ${currentStreak} hari berturut-turut`
-      );
-
-      if (crossed) {
-        setTimeout(() => {
-          showToast(`Milestone <b>${fmt(crossed)}</b> kebuka ♡`);
-        }, 1700);
-      }
-    },
-    [state, updateState, triggerBurst, showToast]
-  );
-
-  // Handle diary reset
-  const handleReset = useCallback(() => {
-    updateState(defaultState());
-    showToast("Catatan diulang dari halaman pertama ♡");
-  }, [updateState, showToast]);
+  const handleRequestDeleteEntry = (entry) => {
+    setDeleteModalState({
+      isOpen: true,
+      type: "entry",
+      item: entry,
+      title: "Hapus Catatan Tabungan?",
+      message: `Setoran sebesar ${fmt(entry.a)} pada tanggal ${entry.d} akan dihapus dari saldo target.`,
+    });
+  };
 
   return (
-    <>
-      <SvgSprite />
-
-      <div className={`app ${isSheetOpen ? "is-locked" : ""}`} id="app">
-        <div className="grain" aria-hidden="true" />
-
-        <TopBar />
-
-        <main>
-          {/* Beranda Screen */}
-          <section
-            className={`screen ${activeTab === "home" ? "is-active" : ""}`}
-            id="screen-home"
-            aria-label="Beranda"
-            hidden={activeTab !== "home"}
-          >
-            <HomeScreen
-              state={state}
-              onOpenSheet={handleOpenSheet}
-              onGoto={(tab) => {
-                setActiveTab(tab);
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              isSavedJustNow={isSavedJustNow}
-            />
-          </section>
-
-          {/* Catatan / Journey Screen */}
-          <section
-            className={`screen ${activeTab === "journey" ? "is-active" : ""}`}
-            id="screen-journey"
-            aria-label="Catatan nabung"
-            hidden={activeTab !== "journey"}
-          >
-            <JourneyScreen
-              state={state}
-              onOpenSheet={handleOpenSheet}
-              onReset={handleReset}
-            />
-          </section>
-
-          {/* Impian / Dreams Screen */}
-          <section
-            className={`screen ${activeTab === "dreams" ? "is-active" : ""}`}
-            id="screen-dreams"
-            aria-label="Impian"
-            hidden={activeTab !== "dreams"}
-          >
-            <DreamsScreen state={state} onOpenSheet={handleOpenSheet} />
-          </section>
-        </main>
-
-        <TabBar activeTab={activeTab} onSelectTab={setActiveTab} />
-      </div>
-
-      <AddEntrySheet
-        isOpen={isSheetOpen}
-        initialGoal={sheetGoal}
-        onClose={() => setIsSheetOpen(false)}
-        onSubmit={handleAddEntry}
+    <div className="app-shell">
+      <TopBar
+        onOpenDeposit={() => handleOpenDeposit()}
+        onOpenNewGoal={handleOpenNewGoal}
       />
 
-      <ConfettiFx particles={particles} />
+      <TabBar
+        activeTab={activeTab}
+        onSelectTab={setActiveTab}
+        goalCount={state.goals.length}
+        entryCount={state.entries.length}
+      />
+
+      <main className="main-content">
+        {activeTab === "overview" && (
+          <HomeScreen
+            goals={state.goals}
+            entries={state.entries}
+            onOpenDeposit={handleOpenDeposit}
+            onOpenNewGoal={handleOpenNewGoal}
+            onEditGoal={handleEditGoal}
+            onDeleteGoal={handleRequestDeleteGoal}
+            onEditEntry={handleEditEntry}
+            onDeleteEntry={handleRequestDeleteEntry}
+            onNavigateTab={setActiveTab}
+          />
+        )}
+
+        {activeTab === "goals" && (
+          <GoalsScreen
+            goals={state.goals}
+            onOpenDeposit={handleOpenDeposit}
+            onOpenNewGoal={handleOpenNewGoal}
+            onEditGoal={handleEditGoal}
+            onDeleteGoal={handleRequestDeleteGoal}
+          />
+        )}
+
+        {activeTab === "history" && (
+          <HistoryScreen
+            entries={state.entries}
+            goals={state.goals}
+            onOpenDeposit={handleOpenDeposit}
+            onEditEntry={handleEditEntry}
+            onDeleteEntry={handleRequestDeleteEntry}
+          />
+        )}
+      </main>
+
+      {/* CRUD Modals */}
+      <GoalModal
+        isOpen={isGoalModalOpen}
+        initialGoal={editingGoal}
+        onClose={() => setIsGoalModalOpen(false)}
+        onSave={handleSaveGoal}
+      />
+
+      <EntryModal
+        isOpen={isDepositModalOpen}
+        initialEntry={editingEntry}
+        defaultGoalId={depositGoalId}
+        goals={state.goals}
+        onClose={() => setIsDepositModalOpen(false)}
+        onSave={handleSaveEntry}
+      />
+
+      <DeleteConfirmModal
+        isOpen={deleteModalState.isOpen}
+        title={deleteModalState.title}
+        message={deleteModalState.message}
+        onClose={() => setDeleteModalState({ ...deleteModalState, isOpen: false })}
+        onConfirm={handleConfirmDelete}
+      />
+
       <ToastContainer toasts={toasts} />
-    </>
+    </div>
   );
 }
