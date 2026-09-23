@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tasha’s Little Savings</title>
+<meta name="theme-color" content="#FCF7F0">
+<meta name="description" content="Diari nabung kecil-kecil milik Tasha: dua impian, satu halaman setiap hari.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5c-4.8-3.4-8.4-6.5-8.4-10.2A4.6 4.6 0 0 1 12 7.4a4.6 4.6 0 0 1 8.4 2.9c0 3.7-3.6 6.8-8.4 10.2Z' fill='%23C4767E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- hand-drawn doodle set: one wobbly stroke language, used across the whole app -->
+<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <linearGradient id="gScreen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBDCC8"/><stop offset=".55" stop-color="#EFE2F4"/><stop offset="1" stop-color="#F7CBD0"/>
+    </linearGradient>
+    <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F2E0BE"/><stop offset=".5" stop-color="#DCB983"/><stop offset="1" stop-color="#EBCFA4"/>
+    </linearGradient>
+  </defs>
+  <symbol id="d-heart" viewBox="0 0 24 24"><path d="M12 20.5c-4.8-3.4-8.4-6.5-8.4-10.2A4.6 4.6 0 0 1 12 7.4a4.6 4.6 0 0 1 8.4 2.9c0 3.7-3.6 6.8-8.4 10.2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="d-heart-f" viewBox="0 0 24 24"><path d="M12 20.5c-4.8-3.4-8.4-6.5-8.4-10.2A4.6 4.6 0 0 1 12 7.4a4.6 4.6 0 0 1 8.4 2.9c0 3.7-3.6 6.8-8.4 10.2Z" fill="currentColor"/></symbol>
+  <symbol id="d-spark" viewBox="0 0 24 24"><path d="M12 2Q13.2 10.8 22 12 13.2 13.2 12 22 10.8 13.2 2 12 10.8 10.8 12 2Z" fill="currentColor"/></symbol>
+  <symbol id="d-star" viewBox="0 0 24 24"><path d="M12 3.4l2.5 5.3 5.8.7-4.3 4 1.2 5.7L12 16.3l-5.2 2.8 1.2-5.7-4.3-4 5.8-.7Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="d-bow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M11.8 11.8C8.4 7.4 3.6 6.6 3.1 9.5c-.4 2.6 3.3 4.3 8.7 2.6"/><path d="M12.2 11.8c3.4-4.4 8.2-5.2 8.7-2.3.4 2.6-3.3 4.3-8.7 2.6"/><path d="M11 13.4c-.7 2.3-1.7 3.9-3.1 5.3M13 13.4c.4 2.3 1.4 3.9 2.8 5.1"/><ellipse cx="12" cy="11.7" rx="1.7" ry="1.5"/></g></symbol>
+  <symbol id="d-flower" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="6.8" r="3"/><circle cx="16.2" cy="9.9" r="3"/><circle cx="14.5" cy="14.8" r="3"/><circle cx="9.5" cy="14.8" r="3"/><circle cx="7.8" cy="9.9" r="3"/><circle cx="12" cy="11.6" r="2"/></g></symbol>
+  <symbol id="d-flame" viewBox="0 0 24 24"><path d="M12.6 3.2c.4 3.5 4.6 4.9 4.6 9a5.1 5.1 0 0 1-10.2 0c0-2.2 1-3.6 2.2-4.8 0 1.6.9 2.5 2 2.5 1.3 0 1.9-1.2 1.7-3.1-.1-1.5-.3-2.6-.3-3.6Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="d-check" viewBox="0 0 24 24"><path d="M5 13.4c1.9 1.4 3.3 2.9 4.5 4.7C12.7 12.2 16.1 8 20 5.4" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+  <symbol id="d-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 11V8.9a4 4 0 0 1 8 0V11"/><rect x="6.3" y="11" width="11.4" height="8.6" rx="2.2"/></g></symbol>
+  <symbol id="d-home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4.9l8 6.6"/><path d="M6.5 10v9.4h11V10"/><path d="M10.3 19.4v-4.9h3.4v4.9"/></g></symbol>
+  <symbol id="d-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 7.3c-2.1-.7-4.2-.8-6.4-.4v11.5c2.2-.4 4.3-.3 6.4.4 2.1-.7 4.2-.8 6.4-.4V6.9c-2.2-.4-4.3-.3-6.4.4Z"/><path d="M12 7.3v11.5"/><path d="M14.6 7.1v5.6l1.5-1.2 1.5 1.2V7.6" stroke-width="1.4"/></g></symbol>
+  <symbol id="d-plus" viewBox="0 0 24 24"><path d="M12 5.6v12.8M5.6 12h12.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="d-arrow" viewBox="0 0 24 24"><path d="M4.5 12h13.4M12.6 6.6 18.4 12l-5.8 5.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="d-x" viewBox="0 0 24 24"><path d="M7 7.2 17 16.8M16.9 7.2 7.1 16.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="d-ipad" viewBox="0 0 72 54">
+    <rect x="2" y="2" width="68" height="50" rx="5.5" fill="#3A302C"/>
+    <rect x="6" y="6" width="60" height="42" rx="2.5" fill="url(#gScreen)"/>
+    <path d="M14 34c4.5-9 9-13.5 13.5-13.5S36 25 40.5 34" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M46 15.5c-1.9-1.4-3.3-2.6-3.3-4a1.8 1.8 0 0 1 3.3-1 1.8 1.8 0 0 1 3.3 1c0 1.4-1.4 2.6-3.3 4Z" fill="#fff" fill-opacity=".7"/>
+    <circle cx="36" cy="4" r=".9" fill="#7A6E66"/>
+  </symbol>
+  <symbol id="d-iphone" viewBox="0 0 44 68">
+    <rect x="1.5" y="1.5" width="41" height="65" rx="10.5" fill="url(#gGold)" stroke="#B99B6C" stroke-width="1.2"/>
+    <path d="M6 52c2 6 6 10 12 12" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round"/>
+    <rect x="6" y="6" width="18" height="18" rx="5.5" fill="#E7CDA2" stroke="#C4A476" stroke-width="1"/>
+    <circle cx="11.4" cy="11.4" r="3.4" fill="#463C36"/><circle cx="11.4" cy="11.4" r="1.3" fill="#948A82"/>
+    <circle cx="18.6" cy="11.4" r="3.4" fill="#463C36"/><circle cx="18.6" cy="11.4" r="1.3" fill="#948A82"/>
+    <circle cx="15" cy="18.4" r="3.4" fill="#463C36"/><circle cx="15" cy="18.4" r="1.3" fill="#948A82"/>
+    <circle cx="21.6" cy="18.6" r="1.6" fill="#F6E7C6"/>
+  </symbol>
+</svg>
+
+<div class="app" id="app">
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-bow" aria-hidden="true"><use href="#d-bow"/></svg>
+      <span class="brand-name">Tasha’s Little Savings</span>
+    </div>
+    <span class="avatar" aria-hidden="true">T</span>
+  </header>
+
+  <main>
+    <!-- ───────────────────────── beranda ───────────────────────── -->
+    <section class="screen is-active" id="screen-home" aria-label="Beranda">
+      <div class="pad">
+        <article class="hero">
+          <svg class="deco deco--spark" aria-hidden="true"><use href="#d-spark"/></svg>
+          <svg class="deco deco--flower" aria-hidden="true"><use href="#d-flower"/></svg>
+          <p class="hero-hi">Hi Tasha <svg class="hero-hi-heart" aria-hidden="true"><use href="#d-heart"/></svg></p>
+          <p class="hero-date" id="heroDate">&nbsp;</p>
+          <p class="hero-amount" id="heroAmount" data-f="total:amount">Rp0</p>
+          <p class="hero-sub">dari total impian <strong data-f="total:goal">Rp10.500.000</strong></p>
+
+          <div class="prog" id="totalProg" role="progressbar" aria-label="Progres menuju total impian" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="prog-fill prog-fill--ribbon" id="totalFill" style="width:0%">
+              <svg class="prog-knob" aria-hidden="true"><use href="#d-heart-f"/></svg>
+            </div>
+          </div>
+
+          <div class="hero-meta">
+            <span data-f="total:pct">0% tercapai</span>
+            <span>sisa <strong data-f="total:left">Rp0</strong></span>
+          </div>
+
+          <p class="hero-msg" id="heroMsg">Pelan-pelan juga tetap maju, ya ♡</p>
+        </article>
+
+        <div class="cta">
+          <button class="btn-save" id="saveBtn" type="button" data-open-sheet>
+            <span class="btn-save-label" id="saveBtnLabel">Nabung hari ini <svg aria-hidden="true"><use href="#d-heart"/></svg></span>
+            <span class="btn-save-amt" id="saveBtnAmt">Rp35.000</span>
+          </button>
+          <p class="cta-hint">ketuk untuk ganti jumlah &amp; pilih impian</p>
+        </div>
+
+        <div class="sec-head">
+          <h2 class="sec-title">Impianmu</h2>
+          <button class="link" type="button" data-goto="dreams">semua impian <svg aria-hidden="true"><use href="#d-arrow"/></svg></button>
+        </div>
+
+        <div class="goals">
+          <article class="goal">
+            <div class="goal-art goal-art--peach"><svg aria-hidden="true"><use href="#d-ipad"/></svg></div>
+            <div class="goal-body">
+              <div class="goal-top">
+                <h3>iPad</h3>
+                <span class="goal-pct" data-f="ipad:pct">0%</span>
+              </div>
+              <p class="goal-target" data-f="ipad:target">Rp4.000.000</p>
+              <div class="prog prog--sm" role="progressbar" aria-label="Progres iPad" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-bar="ipad">
+                <div class="prog-fill prog-fill--peach" data-fill="ipad" style="width:0%"></div>
+              </div>
+              <div class="goal-foot">
+                <p class="goal-left">sisa <strong data-f="ipad:left">Rp0</strong></p>
+                <button class="mini-btn" type="button" data-add="ipad">nabung <svg aria-hidden="true"><use href="#d-heart"/></svg></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="goal">
+            <div class="goal-art goal-art--lav"><svg aria-hidden="true"><use href="#d-iphone"/></svg></div>
+            <div class="goal-body">
+              <div class="goal-top">
+                <h3>iPhone 11 Pro Max</h3>
+                <span class="goal-pct" data-f="iphone:pct">0%</span>
+              </div>
+              <p class="goal-target" data-f="iphone:target">Rp6.500.000</p>
+              <div class="prog prog--sm" role="progressbar" aria-label="Progres iPhone 11 Pro Max" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-bar="iphone">
+                <div class="prog-fill prog-fill--lav" data-fill="iphone" style="width:0%"></div>
+              </div>
+              <div class="goal-foot">
+                <p class="goal-left">sisa <strong data-f="iphone:left">Rp0</strong></p>
+                <button class="mini-btn" type="button" data-add="iphone">nabung <svg aria-hidden="true"><use href="#d-heart"/></svg></button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="sec-head">
+          <h2 class="sec-title">Minggu ini</h2>
+          <button class="link" type="button" data-goto="journey">buka catatan <svg aria-hidden="true"><use href="#d-arrow"/></svg></button>
+        </div>
+
+        <div class="week" id="weekHome"></div>
+
+        <div class="streakline">
+          <svg class="streakline-flame" aria-hidden="true"><use href="#d-flame"/></svg>
+          <p id="streakLine"><strong>0</strong> hari berturut-turut</p>
+          <div class="dots" id="streakDots" aria-hidden="true"></div>
+        </div>
+
+        <div class="sec-head sec-head--plain">
+          <h2 class="sec-title">Milestone kecil</h2>
+        </div>
+        <div class="miles" id="milesHome"></div>
+
+        <div class="sec-head">
+          <h2 class="sec-title">Riwayat terakhir</h2>
+          <button class="link" type="button" data-goto="journey">lihat semua <svg aria-hidden="true"><use href="#d-arrow"/></svg></button>
+        </div>
+        <div class="hist" id="histHome"></div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── catatan ───────────────────────── -->
+    <section class="screen" id="screen-journey" aria-label="Catatan nabung" hidden>
+      <div class="pad">
+        <header class="scr-head">
+          <h1>Catatan nabung</h1>
+          <p id="journeyMonth">September 2026</p>
+        </header>
+
+        <article class="streak-card">
+          <div class="streak-card-main">
+            <svg aria-hidden="true"><use href="#d-flame"/></svg>
+            <div>
+              <p class="streak-card-num" id="streakBig">0</p>
+              <p class="streak-card-label">hari berturut-turut<br>diisi tanpa bolong</p>
+            </div>
+          </div>
+          <div class="streak-card-side">
+            <p class="streak-card-k">rata-rata 7 hari</p>
+            <p class="streak-card-v" id="avgWeek">Rp0</p>
+            <div class="dots dots--lg" id="streakDots2" aria-hidden="true"></div>
+          </div>
+        </article>
+
+        <div class="sec-head sec-head--plain">
+          <h2 class="sec-title">Halaman minggu ini</h2>
+        </div>
+        <div class="pages" id="pages"></div>
+
+        <div class="sec-head">
+          <h2 class="sec-title">Milestone</h2>
+        </div>
+        <div class="miles miles--wrap" id="milesJourney"></div>
+
+        <div class="sec-head">
+          <h2 class="sec-title">Riwayat lengkap</h2>
+        </div>
+        <div class="hist" id="histFull"></div>
+
+        <button class="ghost" id="resetBtn" type="button">Mulai ulang catatan</button>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── impian ───────────────────────── -->
+    <section class="screen" id="screen-dreams" aria-label="Impian" hidden>
+      <div class="pad">
+        <header class="scr-head">
+          <h1>Impianmu</h1>
+          <p>Dua benda, satu tabungan pelan-pelan</p>
+        </header>
+
+        <article class="dream">
+          <div class="dream-art dream-art--peach"><svg aria-hidden="true"><use href="#d-ipad"/></svg></div>
+          <div class="dream-body">
+            <div class="goal-top">
+              <h2>iPad</h2>
+              <span class="goal-pct" data-f="ipad:pct">0%</span>
+            </div>
+            <p class="dream-target" data-f="ipad:target">Rp4.000.000</p>
+            <div class="prog" role="progressbar" aria-label="Progres iPad" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-bar="ipad">
+              <div class="prog-fill prog-fill--peach" data-fill="ipad" style="width:0%"></div>
+            </div>
+            <div class="dream-grid">
+              <div><dt>terkumpul</dt><dd data-f="ipad:saved">Rp0</dd></div>
+              <div><dt>sisa</dt><dd data-f="ipad:left">Rp0</dd></div>
+            </div>
+            <p class="dream-eta" data-f="ipad:eta">–</p>
+            <button class="btn-line" type="button" data-add="ipad">Nabung ke iPad <svg aria-hidden="true"><use href="#d-heart"/></svg></button>
+          </div>
+        </article>
+
+        <article class="dream">
+          <div class="dream-art dream-art--lav"><svg aria-hidden="true"><use href="#d-iphone"/></svg></div>
+          <div class="dream-body">
+            <div class="goal-top">
+              <h2>iPhone 11 Pro Max</h2>
+              <span class="goal-pct" data-f="iphone:pct">0%</span>
+            </div>
+            <p class="dream-target" data-f="iphone:target">Rp6.500.000</p>
+            <div class="prog" role="progressbar" aria-label="Progres iPhone 11 Pro Max" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-bar="iphone">
+              <div class="prog-fill prog-fill--lav" data-fill="iphone" style="width:0%"></div>
+            </div>
+            <div class="dream-grid">
+              <div><dt>terkumpul</dt><dd data-f="iphone:saved">Rp0</dd></div>
+              <div><dt>sisa</dt><dd data-f="iphone:left">Rp0</dd></div>
+            </div>
+            <p class="dream-eta" data-f="iphone:eta">–</p>
+            <button class="btn-line" type="button" data-add="iphone">Nabung ke iPhone <svg aria-hidden="true"><use href="#d-heart"/></svg></button>
+          </div>
+        </article>
+
+        <article class="plan">
+          <svg class="deco deco--star" aria-hidden="true"><use href="#d-star"/></svg>
+          <p class="plan-k">rencana kecil</p>
+          <p class="plan-line">Dengan <strong>Rp35.000</strong> tiap hari, seluruh impian sekitar <strong data-f="total:eta">–</strong>.</p>
+          <p class="plan-sub">Tidak harus tiap hari. Yang penting halamannya tidak kosong terus.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="Navigasi utama">
+    <button class="tab is-active" type="button" data-goto="home" aria-current="page">
+      <svg aria-hidden="true"><use href="#d-home"/></svg><span>Beranda</span>
+    </button>
+    <button class="tab" type="button" data-goto="journey">
+      <svg aria-hidden="true"><use href="#d-book"/></svg><span>Catatan</span>
+    </button>
+    <button class="tab" type="button" data-goto="dreams">
+      <svg aria-hidden="true"><use href="#d-bow"/></svg><span>Impian</span>
+    </button>
+  </nav>
+</div>
+
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" tabindex="-1" hidden>
+  <div class="sheet-handle" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <h2 id="sheetTitle">Nabung hari ini <svg aria-hidden="true"><use href="#d-heart"/></svg></h2>
+    <button class="icon-btn" id="sheetClose" type="button" aria-label="Tutup">
+      <svg aria-hidden="true"><use href="#d-x"/></svg>
+    </button>
+  </div>
+
+  <div class="sheet-amount">
+    <span class="sheet-rp">Rp</span>
+    <input id="amountInput" type="text" inputmode="numeric" autocomplete="off" value="35.000" aria-label="Nominal nabung dalam rupiah">
+  </div>
+  <p class="field-err" id="amountErr" hidden>nominalnya belum diisi, ya</p>
+
+  <div class="chips" role="group" aria-label="Nominal cepat">
+    <button class="chip" type="button" data-amt="10000">Rp10.000</button>
+    <button class="chip is-on" type="button" data-amt="35000">Rp35.000</button>
+    <button class="chip" type="button" data-amt="50000">Rp50.000</button>
+    <button class="chip" type="button" data-amt="100000">Rp100.000</button>
+  </div>
+
+  <p class="sheet-label">masuk ke impian</p>
+  <div class="chips chips--goal" role="group" aria-label="Pilih impian">
+    <button class="chip chip--goal chip--peach is-on" type="button" data-goal-chip="ipad">iPad</button>
+    <button class="chip chip--goal chip--lav" type="button" data-goal-chip="iphone">iPhone 11 Pro Max</button>
+  </div>
+
+  <button class="btn-save btn-save--wide" id="confirmBtn" type="button">
+    <span class="btn-save-label">Catat nabungnya <svg aria-hidden="true"><use href="#d-heart"/></svg></span>
+  </button>
+</div>
+
+<div class="fx" id="fx" aria-hidden="true"></div>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<noscript><p class="noscript">Diari ini butuh JavaScript untuk menyimpan halaman harianmu.</p></noscript>
+
+<script src="app.js"></script>
+</body>
+</html>
