@@ -8,11 +8,11 @@ export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
       <div className="topbar-inner">
         <div className="brand-group">
           <div className="brand-logo">
-            <IconWallet className="w-5 h-5 text-white" />
+            <IconWallet className="w-5 h-5 text-amber-50" />
           </div>
           <div>
             <h1 className="brand-title">Tabungan</h1>
-            <p className="brand-subtitle">Smart Personal Finance &amp; Goals</p>
+            <p className="brand-subtitle">Diari Finansial &amp; Target Impian</p>
           </div>
         </div>
 
@@ -22,7 +22,7 @@ export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
             className="btn-secondary btn-sm"
             onClick={onOpenNewGoal}
           >
-            <IconPlus className="w-4 h-4 mr-1 inline" />
+            <IconPlus className="w-4 h-4 mr-1.5 inline" />
             <span>Target Baru</span>
           </button>
           <button
@@ -30,7 +30,7 @@ export default function TopBar({ onOpenDeposit, onOpenNewGoal }) {
             className="btn-primary btn-sm"
             onClick={onOpenDeposit}
           >
-            <IconPlus className="w-4 h-4 mr-1 inline" />
+            <IconPlus className="w-4 h-4 mr-1.5 inline" />
             <span>Catat Tabungan</span>
           </button>
         </div>

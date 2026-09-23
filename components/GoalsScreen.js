@@ -48,43 +48,62 @@ export default function GoalsScreen({
         </button>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="filter-bar">
-        <div className="filter-scroll">
+      {/* Filter and Search Bar (only show if goals exist) */}
+      {goals.length > 0 && (
+        <div className="filter-bar">
+          <div className="filter-scroll">
+            <button
+              type="button"
+              className={`filter-chip ${selectedCategory === "all" ? "is-active" : ""}`}
+              onClick={() => setSelectedCategory("all")}
+            >
+              Semua ({goals.length})
+            </button>
+            {CATEGORIES.map((c) => {
+              const count = goals.filter((g) => g.category === c.id).length;
+              if (count === 0 && selectedCategory !== c.id) return null;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  className={`filter-chip ${selectedCategory === c.id ? "is-active" : ""}`}
+                  onClick={() => setSelectedCategory(c.id)}
+                >
+                  {c.label} ({count})
+                </button>
+              );
+            })}
+          </div>
+
+          <input
+            type="text"
+            placeholder="Cari target impian..."
+            className="search-input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      )}
+
+      {/* Empty State when no goals at all */}
+      {goals.length === 0 ? (
+        <div className="empty-box py-16">
+          <div className="empty-icon-wrap">
+            <IconPlus className="w-8 h-8 text-amber-700" />
+          </div>
+          <h3 className="text-lg font-bold text-slate-900 mt-4">Belum Ada Target Impian</h3>
+          <p className="text-sm text-slate-500 max-w-md mx-auto mt-2 leading-relaxed">
+            Tambahkan impian pertamamu, tentukan nominal target tabungan, dan pasang foto barang atau tujuan yang ingin kamu capai.
+          </p>
           <button
             type="button"
-            className={`filter-chip ${selectedCategory === "all" ? "is-active" : ""}`}
-            onClick={() => setSelectedCategory("all")}
+            className="btn-primary btn-md mt-6"
+            onClick={onOpenNewGoal}
           >
-            Semua ({goals.length})
+            <IconPlus className="w-4 h-4 mr-2 inline" /> Buat Target Impian Pertama
           </button>
-          {CATEGORIES.map((c) => {
-            const count = goals.filter((g) => g.category === c.id).length;
-            if (count === 0 && selectedCategory !== c.id) return null;
-            return (
-              <button
-                key={c.id}
-                type="button"
-                className={`filter-chip ${selectedCategory === c.id ? "is-active" : ""}`}
-                onClick={() => setSelectedCategory(c.id)}
-              >
-                {c.label} ({count})
-              </button>
-            );
-          })}
         </div>
-
-        <input
-          type="text"
-          placeholder="Cari target impian..."
-          className="search-input"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-
-      {/* Goals Grid */}
-      {filteredGoals.length === 0 ? (
+      ) : filteredGoals.length === 0 ? (
         <div className="empty-box py-12">
           <p className="font-semibold text-slate-700 text-base">Tidak ada target yang cocok</p>
           <p className="text-sm text-slate-500 mt-1">
@@ -94,10 +113,13 @@ export default function GoalsScreen({
           </p>
           <button
             type="button"
-            className="btn-primary btn-sm mt-4"
-            onClick={onOpenNewGoal}
+            className="btn-secondary btn-sm mt-4"
+            onClick={() => {
+              setSelectedCategory("all");
+              setSearchQuery("");
+            }}
           >
-            <IconPlus className="w-4 h-4 mr-1 inline" /> Buat Target Baru
+            Reset Filter
           </button>
         </div>
       ) : (
@@ -120,7 +142,7 @@ export default function GoalsScreen({
             }
 
             return (
-              <div key={g.id} className={`goal-card ${isCompleted ? "border-emerald-200 bg-emerald-50/20" : ""}`}>
+              <div key={g.id} className={`goal-card ${isCompleted ? "goal-card-completed" : ""}`}>
                 {/* Photo Preview if Available */}
                 {g.image ? (
                   <div className="goal-photo-wrap">
@@ -133,8 +155,8 @@ export default function GoalsScreen({
                   </div>
                 ) : (
                   isCompleted && (
-                    <div className="p-3 bg-emerald-50 border-b border-emerald-100 flex items-center text-xs font-semibold text-emerald-700">
-                      <IconCheck className="w-4 h-4 mr-1 text-emerald-600" /> Target Impian Tercapai!
+                    <div className="p-3 bg-emerald-50 border-b border-emerald-100 flex items-center text-xs font-semibold text-emerald-800">
+                      <IconCheck className="w-4 h-4 mr-1.5 text-emerald-600" /> Target Impian Tercapai!
                     </div>
                   )
                 )}
@@ -166,11 +188,11 @@ export default function GoalsScreen({
                   </div>
 
                   {g.deadline && (
-                    <div className="text-xs text-slate-500 flex items-center gap-1.5 mt-1">
+                    <div className="text-xs text-slate-500 flex items-center gap-1.5 mt-1 font-medium">
                       <IconCalendar className="w-3.5 h-3.5 text-slate-400" />
                       <span>Target: {formatDateShort(g.deadline)}</span>
                       {deadlineInfo && (
-                        <span className="px-1.5 py-0.5 rounded bg-slate-100 font-medium text-slate-600">
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 font-semibold border border-amber-200">
                           {deadlineInfo}
                         </span>
                       )}
@@ -180,7 +202,7 @@ export default function GoalsScreen({
                   <div className="goal-amount-row">
                     <div>
                       <p className="text-xs text-slate-400">Terkumpul</p>
-                      <p className="text-base font-bold text-slate-800">{fmt(g.saved)}</p>
+                      <p className="text-base font-bold text-slate-900">{fmt(g.saved)}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-slate-400">Target Nominal</p>
@@ -190,14 +212,14 @@ export default function GoalsScreen({
 
                   <div className="progress-bar-wrap">
                     <div
-                      className={`progress-bar-fill ${isCompleted ? "bg-emerald-600" : "bg-emerald-500"}`}
+                      className={`progress-bar-fill ${isCompleted ? "bg-emerald-500" : "bg-emerald-600"}`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>
 
                   <div className="goal-card-footer">
                     <span className="text-xs text-slate-500 font-medium">
-                      {Math.round(pct)}% {isCompleted ? "Lengkap" : `(Sisa ${fmt(sisa)})`}
+                      {Math.round(pct)}% {isCompleted ? "Selesai" : `(Sisa ${fmt(sisa)})`}
                     </span>
                     <button
                       type="button"
